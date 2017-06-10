@@ -1,0 +1,1168 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="CAAnimation,核心动画,粒子效果,大图绘制,异步绘制," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/Favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="系列文章：  老司机带你走进Core Animation 之CAAnimation 老司机带你走进Core Animation 之CADisplayLink 老司机带你走进Core Animation 之几种动画的简单应用 老司机带你走进Core Animation 之CAShapeLayer和CATextLayer 老司机带你走进Core Animation 之图层的透视、渐变及复制 老司机带">
+<meta name="keywords" content="CAAnimation,核心动画,粒子效果,大图绘制,异步绘制">
+<meta property="og:type" content="article">
+<meta property="og:title" content="老司机带你走进Core Animation 之粒子发射、TileLayer与异步绘制">
+<meta property="og:url" content="http://codewicky.coding.me/2017/02/12/老司机带你走进Core-Animation-之粒子发射、TileLayer与异步绘制/index.html">
+<meta property="og:site_name" content="R &amp; W">
+<meta property="og:description" content="系列文章：  老司机带你走进Core Animation 之CAAnimation 老司机带你走进Core Animation 之CADisplayLink 老司机带你走进Core Animation 之几种动画的简单应用 老司机带你走进Core Animation 之CAShapeLayer和CATextLayer 老司机带你走进Core Animation 之图层的透视、渐变及复制 老司机带">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1835430-be47acb97de6b6b5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1835430-43e781a3c34ea941.jpeg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1835430-dec94675e2aca20c.gif?imageMogr2/auto-orient/strip">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1835430-37da6cb408c5a08d.gif?imageMogr2/auto-orient/strip">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1835430-1a72586af69776ec.jpeg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1835430-bc004dc959f7b675.gif?imageMogr2/auto-orient/strip">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1835430-456beaed3f710b02.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1835430-e7706ffe827b1ea1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1835430-1a477250d897b4b1.jpeg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2017-06-04T23:33:44.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="老司机带你走进Core Animation 之粒子发射、TileLayer与异步绘制">
+<meta name="twitter:description" content="系列文章：  老司机带你走进Core Animation 之CAAnimation 老司机带你走进Core Animation 之CADisplayLink 老司机带你走进Core Animation 之几种动画的简单应用 老司机带你走进Core Animation 之CAShapeLayer和CATextLayer 老司机带你走进Core Animation 之图层的透视、渐变及复制 老司机带">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/1835430-be47acb97de6b6b5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":true},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://codewicky.coding.me/2017/02/12/老司机带你走进Core-Animation-之粒子发射、TileLayer与异步绘制/"/>
+
+
+
+
+
+  <title>老司机带你走进Core Animation 之粒子发射、TileLayer与异步绘制 | R & W</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">R & W</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description">愿得今朝图鸿志，不作江郎叹息声。</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-messageboard">
+          <a href="/messageBoard" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            留言板
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://codewicky.coding.me/2017/02/12/老司机带你走进Core-Animation-之粒子发射、TileLayer与异步绘制/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="CodeWicky">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="R & W">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">老司机带你走进Core Animation 之粒子发射、TileLayer与异步绘制</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-12T07:33:44+08:00">
+                2017-02-12
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2017-06-05T07:33:44+08:00">
+                2017-06-05
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/核心动画/" itemprop="url" rel="index">
+                    <span itemprop="name">核心动画</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-comment-o"></i>
+              </span>
+              
+                  <span class="post-meta-item-text">讨论</span>
+              
+              
+                <a href="/2017/02/12/老司机带你走进Core-Animation-之粒子发射、TileLayer与异步绘制/" itemprop="discussionUrl">
+                  <span id="changyan_count_unit" class="post-comments-count hc-comment-count" data-xid="2017/02/12/老司机带你走进Core-Animation-之粒子发射、TileLayer与异步绘制/" itemprop="commentsCount"></span>
+                </a>
+              
+            
+          
+
+          
+          
+             <span id="/2017/02/12/老司机带你走进Core-Animation-之粒子发射、TileLayer与异步绘制/" class="leancloud_visitors" data-flag-title="老司机带你走进Core Animation 之粒子发射、TileLayer与异步绘制">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="http://upload-images.jianshu.io/upload_images/1835430-be47acb97de6b6b5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="老司机带你走进Core Animation 之粒子发射、TileLayer与异步绘制"></p>
+<p>系列文章：</p>
+<ul>
+<li><a href="http://www.jianshu.com/p/92a0661a21c6" target="_blank" rel="external">老司机带你走进Core Animation 之CAAnimation</a></li>
+<li><a href="http://www.jianshu.com/p/434ec6911148" target="_blank" rel="external">老司机带你走进Core Animation 之CADisplayLink</a></li>
+<li><a href="http://www.jianshu.com/p/8e14616679ea" target="_blank" rel="external">老司机带你走进Core Animation 之几种动画的简单应用</a></li>
+<li><a href="http://www.jianshu.com/p/3115050b7298" target="_blank" rel="external">老司机带你走进Core Animation 之CAShapeLayer和CATextLayer</a></li>
+<li><a href="http://www.jianshu.com/p/dedc44fe8e35" target="_blank" rel="external">老司机带你走进Core Animation 之图层的透视、渐变及复制</a></li>
+<li><a href="http://www.jianshu.com/p/29cbc1744153" target="_blank" rel="external">老司机带你走进Core Animation 之粒子发射、TileLayer与异步绘制</a></li>
+</ul>
+<hr>
+<p>呐，今天给大家打来的将是老司机带你走进CoreAnimation系列的最后一篇了，补充一些其他的特殊的layer。</p>
+<p>为什么他们放到最后讲呢，因为他们的<code>使用率不高</code>，至少在app方面上。所以呢老司机也没怎么用过，<code>我也是学完又转述给你们</code>，仅当做<code>自己学习的笔记了</code>，所以如果部分内容与您了解的<code>有偏差</code>，请<code>给我留言</code>，我一定会<code>与你探讨</code>，争取<code>将最正确的博客留给大家</code>。当然，老司机写这篇博客之前也是自己查阅了很多资料的，你大可以<code>不用担心我瞎逼逼</code>╮(╯_╰)╭</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1835430-43e781a3c34ea941.jpeg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="一脸懵逼"></p>
+<p>在今天的博客里，你可以看到以下内容：</p>
+<ul>
+<li>CAEmitterLayer</li>
+<li>CATiledLayer</li>
+<li>异步绘制</li>
+</ul>
+<a id="more"></a>
+<hr>
+<h3 id="CAEmitterLayer"><a href="#CAEmitterLayer" class="headerlink" title="CAEmitterLayer"></a>CAEmitterLayer</h3><p>CAEmitter的解决粒子发射而存在的类，你问什么是粒子发射，look。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1835430-dec94675e2aca20c.gif?imageMogr2/auto-orient/strip" alt="粒子"></p>
+<p>你所看到的这一大坨就是粒子系统了。这种效果我们平常app用的还算少点，不过在游戏、直播里面倒是有这不错的应用，所以作为去年两大火热方向之一的直播，你了解一下粒子系统也行。</p>
+<p>要想实现这种粒子效果，光有<code>CAEimmter</code>还是不够的，他需要<code>配合着CAEmitterCell进行使用</code>。要说他们两个的联系呢，就是Layer其实是一个<code>容器</code>，而粒子呢就是所谓的<code>cell</code>。你可以指定一种粒子样式，也就是一种cell，放在容器layer里面，让容器去控制粒子的发射，就是这样。</p>
+<p>东西简单的很，我直接放一下代码，你们看一下就可以懂。</p>
+<pre><code>CAEmitterLayer *emitter = [CAEmitterLayer layer];
+emitter.frame = self.bgView.bounds;
+self.bgView.backgroundColor = [UIColor blackColor];
+[self.bgView.layer addSublayer:emitter];
+///粒子的产生速率，即每秒产生的个数
+emitter.birthRate = 150;
+///每个粒子可以停留，也就是显示的时间
+emitter.lifetime = 5;
+///每个粒子的初速度
+emitter.velocity = 50;
+///每个粒子的缩放比例
+emitter.scale = 0.5;
+///每个粒子的旋转角度
+emitter.spin = M_PI;
+///渲染模式
+emitter.renderMode = kCAEmitterLayerBackToFront;
+///粒子发生器的位置
+emitter.emitterPosition = CGPointMake(emitter.frame.size.width / 2.0, emitter.frame.size.height / 2.0);
+///粒子发生器的大小
+emitter.emitterSize = CGSizeMake(50, 50);
+///粒子发生器的形状
+emitter.emitterShape = kCAEmitterLayerLine;
+///粒子发射的模式
+emitter.emitterMode = kCAEmitterLayerOutline;
+self.layer = emitter;
+
+//create a particle template
+CAEmitterCell *cell = [[CAEmitterCell alloc] init];
+///粒子内容，也就是你要展示的粒子元素
+cell.contents = (__bridge id)[UIImage imageNamed:@&quot;爱心&quot;].CGImage;
+///粒子的初始颜色
+cell.color = [UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:1].CGColor;
+
+///同emitterLayer提供的属性具有相同含义，不同的是emitterLayer中的属性更像是乘法器中的一个比例系数，也就是说layer中的对应属性与cell中的属性相乘才是这个属性最终的值。因为layer可以盛放多种类型cell，所以layer中的数值会作用于所有cell，而cell中的数值仅影响自身实例。
+cell.lifetime = 1;
+cell.birthRate = 1;
+cell.velocity = 1;
+cell.scale = 1;
+cell.spin = 1;
+
+///一些属性的改变速率，设置了对应值后，粒子的属性会按照改变速率进行改变
+cell.alphaSpeed = -0.1;
+cell.redSpeed = 0.1;
+cell.blueSpeed = 0.1;
+cell.greenSpeed = 0.1;
+
+///一些属性的扰动范围，所谓扰动范围就是在你设置的固定值两端+-扰动值形成一个范围，那所有粒子的对应属性都在扰动这个范围之内随机产生，这样可以方便产生不同的粒子，而不是千篇一律相同的粒子
+cell.alphaRange = 0.8;
+cell.scaleRange = 1;
+cell.emissionRange = M_PI_4;
+cell.redRange = 1;
+cell.greenRange = 1;
+cell.blueRange = 1;
+
+///粒子发射倾斜的角度
+cell.emissionLongitude = M_PI_4;
+
+///粒子y轴运动方向的加速度，相似的还有xAcceleration，通常用来模拟重力加速度，产生粒子坠落的效果
+cell.yAcceleration = 100;
+self.cell = cell;
+
+///初始化cell后将其放在容器内，容器即可自动产生粒子并进行发射。
+//此处注意是一个数组，也就是说你可以把多个粒子实例传入其中。
+emitter.emitterCells = @[cell];
+</code></pre><p>所以说用法还是很简单的，所有属性不同的组合能有一些不错的效果，老司机也就不一一展示了，我的demo里面会抽出几个属性让你能很方便的更改以更快的熟悉CAEmitterLayer。</p>
+<p>恩，这里我对发射模式的四个模式讲一下，因为冷不丁一看看不出来头绪</p>
+<ul>
+<li>kCAEmitterLayerPoints     以端点发射</li>
+<li>kCAEmitterLayerOutline    以发射器边界发射</li>
+<li>kCAEmitterLayerSurface    以发射器内部区域发射</li>
+<li>kCAEmitterLayerVolume        不知道╮(╯_╰)╭</li>
+</ul>
+<p>恩，这个就结束了，真不是我敷衍。。就这些东西。。</p>
+<p>你可以去<a href="http://www.cnblogs.com/densefog/p/5424155.html" target="_blank" rel="external">这篇博客</a>看看每种属性调出来的效果，他都做了动图。</p>
+<hr>
+<h3 id="CATiledLayer"><a href="#CATiledLayer" class="headerlink" title="CATiledLayer"></a>CATiledLayer</h3><p>这个layer其实你一定见过，至少下面这个效果你一定见过</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1835430-37da6cb408c5a08d.gif?imageMogr2/auto-orient/strip" alt="Tiled"></p>
+<p>这个效果相信用过导航的你就一定见到过吧，如果不用让你自己去实现我相信还会费很大的功夫，不过有了CATiledLayer以后你就不用自己考虑了。</p>
+<p>他为什么而存在的呢，就是上面演示那种状况，当你要绘制一幅很大的图片的时候，这将十分耗费性能，因为对于图片的处理我们知道CoreAnimation是强制使用CPU的。所以才有了CATiledLayer。<br>他将需要绘制的内容<code>分割成许多小块</code>，然后再许多线程里<code>按需异步</code>绘制相应的小块，这样，就<code>不会阻塞线程</code>了。</p>
+<p>下面给出部分代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div></pre></td><td class="code"><pre><div class="line">+(Class)layerClass</div><div class="line">&#123;</div><div class="line">    return [CATiledLayer class];</div><div class="line">&#125;</div><div class="line"></div><div class="line">-(instancetype)initWithFrame:(CGRect)frame path:(NSString *)path completion:(void (^)(CGSize))completion</div><div class="line">&#123;</div><div class="line">    self = [super initWithFrame:frame];</div><div class="line">    if (self) &#123;</div><div class="line">        NSURL *docURL = [NSURL fileURLWithPath:path];</div><div class="line">        CGPDFDocumentRef pdf = CGPDFDocumentCreateWithURL((CFURLRef)docURL);</div><div class="line">        CGPDFPageRef page = CGPDFDocumentGetPage(pdf, 1);</div><div class="line">        self.page = page;</div><div class="line">        CGRect pageRect = CGPDFPageGetBoxRect(page, kCGPDFCropBox);</div><div class="line">        CATiledLayer * layer = (CATiledLayer *)self.layer;</div><div class="line">        layer.levelsOfDetailBias = 5;</div><div class="line">        </div><div class="line">        layer.bounds = pageRect;</div><div class="line">        int w = pageRect.size.width;</div><div class="line">        int h = pageRect.size.height;</div><div class="line">        </div><div class="line">        int levels = 1;</div><div class="line">        while (w &gt; 1 &amp;&amp; h &gt; 1) &#123;</div><div class="line">            levels++;</div><div class="line">            w = w &gt;&gt; 1;</div><div class="line">            h = h &gt;&gt; 1;</div><div class="line">        &#125;</div><div class="line">        layer.levelsOfDetail = levels;</div><div class="line">        [self setFrame:pageRect];</div><div class="line">        if (completion) &#123;</div><div class="line">            completion(pageRect.size);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    return self;</div><div class="line">&#125;</div><div class="line"></div><div class="line">-(void)drawLayer:(CALayer *)layer inContext:(CGContextRef)ctx</div><div class="line">&#123;</div><div class="line">    CGContextDrawPDFPage(ctx, self.page);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这个就是上面demo中我重写的view类。</p>
+<p>有两个属性说一下：</p>
+<ul>
+<li><p>levelsOfDetail：layer维护的细节层次的个数，就是说你对图像进行2倍缩放而不失真的层次的个数。</p>
+</li>
+<li><p>levelsOfDetailBias：layer维护的细节层次放大倍数。</p>
+</li>
+</ul>
+<p>这两个地方很抽象，老司机也用的比较少，老司机一知半解的也不好误导你，所以你可以看看这几个博客，都有介绍这个属性：</p>
+<ul>
+<li><p><a href="http://mobile.51cto.com/iphone-469498.htm" target="_blank" rel="external"><br>Swift语言iOS开发：CALayer十则示例</a></p>
+</li>
+<li><p><a href="http://www.mlsite.net/blog/?p=1884" target="_blank" rel="external">CATiledLayer (Part 2)</a></p>
+</li>
+<li><p><a href="http://www.cocoachina.com/bbs/read.php?tid-31201-page-1.html" target="_blank" rel="external">研究了一下CATiledLayer的levelsOfDetail和levelsOfDetailBias的含义</a></p>
+</li>
+</ul>
+<hr>
+<h3 id="异步绘制"><a href="#异步绘制" class="headerlink" title="异步绘制"></a>异步绘制</h3><p>下面我会着重讲一下异步绘制。（毕竟这才是最近用到的深入了解过的东西）。</p>
+<p>最初这个想法是从<code>ASDK</code>来的。<br>总的来说<code>ASDK</code>是FaceBook<code>为了解决iOS中由于计算量过多而导致屏幕卡顿</code>的一个开源库。</p>
+<p>我们平时感受到的卡顿，其实专业点叫掉帧（玩游戏的你一定知道）。造成掉帧是因为有垂直同步，当计算量过大导致要刷新帧的时候没有计算结束，就会放弃本帧，造成了所谓了卡顿。（更多关于成像原理的内容去<a href="http://draveness.me/asdk-rendering/" target="_blank" rel="external">这里</a>看）。</p>
+<p>所以知道了卡顿的原因，我们就要想办法解决这当中的冲突，所以我们应该了解CoreAnimation的<code>绘制流程</code>。</p>
+<p>我们知道实际上CALayer和UIView都<code>不是线程安全</code>的，所以UI操作我们一定要写在主线程（虽然后来苹果也修改了一部分属性使其成为线程安全的，但是苹果仍不建议在子线程中操作UI，因为你无法预知会发生什么。。）</p>
+<p>说一下你对UI的改变系统是怎么处理的。<br>我们知道，OS及iOS系统中，<code>负责渲染的类均为CALayer类</code>，也就是说，你操作的所有UI，layer层也好UI控件也罢，<code>最后都会映射到CALayer</code>的改变上。</p>
+<p>但是Layer捕捉到需要做的改变后<code>并不会立即去刷新</code>，而是<code>寻找一个合适的实际去进行刷新</code>。</p>
+<p>事实上CoreAnimation在Runloop中注册了一个<code>观察者</code>，当runLoop即将进入<code>休眠或者退出</code>的时候会回调，这时候CALayer捕捉的到所有变化会开始计算，并刷新UI。</p>
+<p>前文说过，早成屏幕卡顿的原因是因为<code>计算量大</code>，没算完，掉帧了。那我们为什么不在他接收到需要变化的时候<code>尽可能的将可以在子线程中做的计算开启一个子线程异步去计算</code>，其他的回到中线程中计算，这样<code>减少计算压力</code>就可以提高性能。</p>
+<p>上面说了一下原理以及由原理衍生出来的解决方案，下面就具体放一下代码。这里需要说的是由于ASDK太过庞大，我要讲的是<code>YYKit</code>中对于异步绘制这部分的代码，恩，他是参考的ASDK，所以原理一样。以下代码是我参照<code>YYTextAsyncLayer</code>改的代码，因为YY大神代码的完备性，所以我也没有什么改善的余地，只是将个人认为不需要的冗余去除，进行了微乎其微的改动，所以这里申明代码<code>不是我个人代码</code>啊。。。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div><div class="line">165</div><div class="line">166</div><div class="line">167</div><div class="line">168</div></pre></td><td class="code"><pre><div class="line">static dispatch_queue_t DWCoreTextLabelLayerGetDisplayQueue() &#123;</div><div class="line">#define MAX_QUEUE_COUNT 16</div><div class="line">    static int queueCount;</div><div class="line">    static dispatch_queue_t queues[MAX_QUEUE_COUNT];</div><div class="line">    static dispatch_once_t onceToken;</div><div class="line">    static int32_t counter = 0;</div><div class="line">    dispatch_once(&amp;onceToken, ^&#123;</div><div class="line">        queueCount = (int)[NSProcessInfo processInfo].activeProcessorCount;</div><div class="line">        queueCount = queueCount &lt; 1 ? 1 : queueCount &gt; MAX_QUEUE_COUNT ? MAX_QUEUE_COUNT : queueCount;</div><div class="line">        if ([UIDevice currentDevice].systemVersion.floatValue &gt;= 8.0) &#123;</div><div class="line">            for (NSUInteger i = 0; i &lt; queueCount; i++) &#123;</div><div class="line">                dispatch_queue_attr_t attr = dispatch_queue_attr_make_with_qos_class(DISPATCH_QUEUE_SERIAL, QOS_CLASS_USER_INITIATED, 0);</div><div class="line">                queues[i] = dispatch_queue_create(&quot;com.codeWicky.DWCoreTextLabel.render&quot;, attr);</div><div class="line">            &#125;</div><div class="line">        &#125; else &#123;</div><div class="line">            for (NSUInteger i = 0; i &lt; queueCount; i++) &#123;</div><div class="line">                queues[i] = dispatch_queue_create(&quot;com.codeWicky.DWCoreTextLabel.render&quot;, DISPATCH_QUEUE_SERIAL);</div><div class="line">                dispatch_set_target_queue(queues[i], dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0));</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;);</div><div class="line">#pragma clang diagnostic push</div><div class="line">#pragma clang diagnostic ignored &quot;-Wdeprecated-declarations&quot;</div><div class="line">    uint32_t cur = (uint32_t)OSAtomicIncrement32(&amp;counter);</div><div class="line">#pragma clang diagnostic pop</div><div class="line">    return queues[(cur) % queueCount];</div><div class="line">#undef MAX_QUEUE_COUNT</div><div class="line">&#125;</div><div class="line"></div><div class="line">static dispatch_queue_t DWCoreTextLabelLayerGetReleaseQueue() &#123;</div><div class="line">    return dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0);</div><div class="line">&#125;</div><div class="line"></div><div class="line">@interface DWAsyncLayer ()</div><div class="line"></div><div class="line">@property (atomic, readonly) int32_t signal;</div><div class="line"></div><div class="line">@end</div><div class="line"></div><div class="line">@implementation DWAsyncLayer</div><div class="line"></div><div class="line">-(instancetype)init</div><div class="line">&#123;</div><div class="line">    self = [super init];</div><div class="line">    if (self) &#123;</div><div class="line">        _signal = 0;</div><div class="line">        _displaysAsynchronously = YES;</div><div class="line">    &#125;</div><div class="line">    return self;</div><div class="line">&#125;</div><div class="line"></div><div class="line">-(void)signalIncrease</div><div class="line">&#123;</div><div class="line">#pragma clang diagnostic push</div><div class="line">#pragma clang diagnostic ignored &quot;-Wdeprecated-declarations&quot;</div><div class="line">    OSAtomicIncrement32(&amp;_signal);</div><div class="line">#pragma clang diagnostic pop</div><div class="line">&#125;</div><div class="line"></div><div class="line">-(void)setNeedsDisplay</div><div class="line">&#123;</div><div class="line">    [self cancelPreviousDisplayCalculate];</div><div class="line">    [super setNeedsDisplay];</div><div class="line">&#125;</div><div class="line"></div><div class="line">-(void)cancelPreviousDisplayCalculate</div><div class="line">&#123;</div><div class="line">    [self signalIncrease];</div><div class="line">&#125;</div><div class="line"></div><div class="line">-(void)dealloc</div><div class="line">&#123;</div><div class="line">    [self cancelPreviousDisplayCalculate];</div><div class="line">&#125;</div><div class="line"></div><div class="line">-(void)display</div><div class="line">&#123;</div><div class="line">    super.contents = super.contents;</div><div class="line">    [self displayAsync:self.displaysAsynchronously];</div><div class="line">&#125;</div><div class="line"></div><div class="line">-(void)displayAsync:(BOOL)async</div><div class="line">&#123;</div><div class="line">    if (!self.displayBlock) &#123;</div><div class="line">        self.contents = nil;</div><div class="line">        return;</div><div class="line">    &#125;</div><div class="line">    if (async) &#123;</div><div class="line">        int32_t signal = self.signal;</div><div class="line">        BOOL (^isCancelled)() = ^BOOL() &#123;</div><div class="line">            return signal != self.signal;</div><div class="line">        &#125;;</div><div class="line">        CGSize size = self.bounds.size;</div><div class="line">        BOOL opaque = self.opaque;</div><div class="line">        CGFloat scale = self.contentsScale;</div><div class="line">        CGColorRef backgroundColor = (opaque &amp;&amp; self.backgroundColor) ? CGColorRetain(self.backgroundColor) : NULL;</div><div class="line">        if (size.width &lt; 1 || size.height &lt; 1) &#123;</div><div class="line">            CGImageRef image = (__bridge_retained CGImageRef)(self.contents);</div><div class="line">            self.contents = nil;</div><div class="line">            if (image) &#123;</div><div class="line">                dispatch_async(DWCoreTextLabelLayerGetReleaseQueue(), ^&#123;</div><div class="line">                    CFRelease(image);</div><div class="line">                &#125;);</div><div class="line">            &#125;</div><div class="line">            CGColorRelease(backgroundColor);</div><div class="line">            return;</div><div class="line">        &#125;</div><div class="line">        </div><div class="line">        dispatch_async(DWCoreTextLabelLayerGetDisplayQueue(), ^&#123;</div><div class="line">            if (isCancelled()) &#123;</div><div class="line">                CGColorRelease(backgroundColor);</div><div class="line">                return;</div><div class="line">            &#125;</div><div class="line">            UIGraphicsBeginImageContextWithOptions(size, opaque, scale);</div><div class="line">            CGContextRef context = UIGraphicsGetCurrentContext();</div><div class="line">            if (opaque) &#123;</div><div class="line">                fillContextWithColor(context, backgroundColor, size);</div><div class="line">                CGColorRelease(backgroundColor);</div><div class="line">            &#125;</div><div class="line">            self.displayBlock(context,isCancelled);</div><div class="line">            if (isCancelled()) &#123;</div><div class="line">                UIGraphicsEndImageContext();</div><div class="line">                return;</div><div class="line">            &#125;</div><div class="line">            UIImage *image = UIGraphicsGetImageFromCurrentImageContext();</div><div class="line">            UIGraphicsEndImageContext();</div><div class="line">            if (isCancelled()) &#123;</div><div class="line">                return;</div><div class="line">            &#125;</div><div class="line">            dispatch_async(dispatch_get_main_queue(), ^&#123;</div><div class="line">                if (!isCancelled()) &#123;</div><div class="line">                    self.contents = (__bridge id)(image.CGImage);</div><div class="line">                &#125;</div><div class="line">            &#125;);</div><div class="line">        &#125;);</div><div class="line">    &#125; else &#123;</div><div class="line">        [self signalIncrease];</div><div class="line">        UIGraphicsBeginImageContextWithOptions(self.bounds.size, self.opaque, self.contentsScale);</div><div class="line">        CGContextRef context = UIGraphicsGetCurrentContext();</div><div class="line">        if (self.opaque) &#123;</div><div class="line">            CGSize size = self.bounds.size;</div><div class="line">            size.width *= self.contentsScale;</div><div class="line">            size.height *= self.contentsScale;</div><div class="line">            fillContextWithColor(context, self.backgroundColor,size);</div><div class="line">        &#125;</div><div class="line">        self.displayBlock(context,^&#123;return NO;&#125;);</div><div class="line">        UIImage *image = UIGraphicsGetImageFromCurrentImageContext();</div><div class="line">        UIGraphicsEndImageContext();</div><div class="line">        self.contents = (__bridge id)(image.CGImage);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">static inline void fillContextWithColor(CGContextRef context,CGColorRef color,CGSize size)&#123;</div><div class="line">    CGContextSaveGState(context); &#123;</div><div class="line">        if (!color || CGColorGetAlpha(color) &lt; 1) &#123;</div><div class="line">            CGContextSetFillColorWithColor(context, [UIColor whiteColor].CGColor);</div><div class="line">            CGContextAddRect(context, CGRectMake(0, 0, size.width, size.height));</div><div class="line">            CGContextFillPath(context);</div><div class="line">        &#125;</div><div class="line">        if (color) &#123;</div><div class="line">            CGContextSetFillColorWithColor(context, color);</div><div class="line">            CGContextAddRect(context, CGRectMake(0, 0, size.width, size.height));</div><div class="line">            CGContextFillPath(context);</div><div class="line">        &#125;</div><div class="line">    &#125; CGContextRestoreGState(context);</div><div class="line">&#125;;</div><div class="line"></div><div class="line">@end</div></pre></td></tr></table></figure>
+<p>总共不到200行代码，因为我减少了YY里面的将要绘制和完成绘制的回调，仅保留绘制的回调。</p>
+<p>大致说一下他的思路：</p>
+<p>当一次绘制请求正在进行的时候，如果下一次绘制请求已经开始，那么显然本次请求是无效的，应当放弃，所以这里<code>一次绘制应该尽可能的及早被取消</code>。而后就是<code>将无关的计算移到子线程</code>中计算<code>并在context中绘制</code>，最后从<code>context中取到绘制的图片</code>，将其设置为<code>layer的Contents进而展示画面</code>。</p>
+<p>所以思路在这，实现方式就出来了：</p>
+<ul>
+<li><p>1.截获绘制请求，进行自定制实现</p>
+</li>
+<li><p>2.实现过程中，可以取消绘制请求</p>
+</li>
+<li><p>3.将绘制任务在子线程中回调给出去进行绘制，再取context中Image在主线程中设置给contents。</p>
+</li>
+</ul>
+<p>恩，第一条不用说了，绘制任务会调用layer的<code>display</code>方法，<code>重写</code>就好了。</p>
+<p>第二条分两点，<code>发现</code>取消请求和<code>取消任务</code>。取消任务比较简单，在将要执行的代码前<code>return</code>就会导致后面的代码不被执行进而取消。</p>
+<p>巧妙地是发现取消请求这里。我们知道<code>block引入变量的时候会将外界变量copy于栈</code>中，这样即使外界变量发生改变，block中的变量也不会发生改变。（当然只有基本类型数据传入的是值的，对象都是传指针的。这部分的理解你要参照<code>传值与传止的区别，以及形参与实参</code>，真不懂的童靴回头复习一下C吧）。应用这一特性，设置Layer持有一个<code>基本数据类型的计数量</code>，<code>用一个临时变量存储及数量后</code>，block中比较临时变量与layer持有的计数量的值，因为临时变量是被copy走的，不会随外界改变，所以当外界改变时，<code>两个值不相等我们就能拿到这个状态了</code>。</p>
+<p>然后就是当我们要<code>取消任务的时候更改layer持有的计数量</code>，从而取消任务。</p>
+<p>第三条，就是在具体需要绘制的地方，（一般来说为了<code>降低耦合性都是扔给View去做</code>，这样所有的View的layer都使用这个layer，而不同的绘制任务交给View中layer的回调即可解耦）把绘制任务都绘制在context，绘制完成后在将context的image在主线程中赋给contents即可。（说到这看不懂的建议看一下这系列的第一篇，一些预备知识都在里面）。</p>
+<p>到这里，异步绘制这块也算是结束了。</p>
+<hr>
+<p>此外，单独说一句，老司机之前借鉴这个思路后想着一些其他实现方式拿到context也可以做这些是，不过都以失败告终，为什么呢，因为<code>除了drawRect中，UIView里面是拿不到context</code>的，这是因为drawRect方法是在drawLayer:inContext中进行调用，并且调用之前会执行UIGraphicsPushContext(context)，将当前context压入栈顶，这时你在drawRect中才能通过UIGraphicsGetCurrentContext取到。并且drawRect执行完成后，context紧接着呗pop掉了，所以你只能在drawRect中获取到当前context。</p>
+<hr>
+<p>本期的demo<a href="https://pan.baidu.com/s/1hrW8hQs" target="_blank" rel="external">在这里</a>。</p>
+<hr>
+<p>恩，到这里终于能结束这个系列了。随着越来越多的人看我的博客，老司机也开始觉得话不能乱说，字不能乱码。所以老司机也正在努力不断的提升自己博客中的内容质量，争取对得起美味粉丝~😯，不，是每位粉丝，毕竟老司机不C粉。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1835430-1a72586af69776ec.jpeg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="你猜我笑啥"></p>
+<hr>
+<p>参考资料</p>
+<ul>
+<li><a href="http://www.cnblogs.com/densefog/p/5424155.html" target="_blank" rel="external">iOS粒子系统CAEmitterLayer</a></li>
+<li><a href="http://www.cocoachina.com/bbs/read.php?tid-31201-page-1.html" target="_blank" rel="external">研究了一下CATiledLayer的levelsOfDetail和levelsOfDetailBias的含义</a></li>
+<li><a href="http://draveness.me/asdk-rendering/" target="_blank" rel="external">使用 ASDK 性能调优 - 提升 iOS 界面的渲染性能</a></li>
+<li><a href="http://blog.ibireme.com/2015/11/12/smooth_user_interfaces_for_ios/" target="_blank" rel="external">iOS 保持界面流畅的技巧</a></li>
+<li><a href="http://www.jianshu.com/p/c49833c04362" target="_blank" rel="external">关于drawRect</a></li>
+</ul>
+<hr>
+<p>最后的最后，一般都是软广环节：</p>
+<p>DWCoreTextLabel更新到现在已经1.1.6版本了，现在除了图文混排功能，还支持文本类型的自动检测，异步绘制减少系统的卡顿，异步加载并缓存图片的功能。</p>
+<blockquote>
+<p>version 1.1.0<br>全面支持自动链接支持、定制检测规则、图文混排、响应事件<br>优化大部分算法，提高响应效率及绘制效率</p>
+<p>version 1.1.1<br>高亮取消逻辑优化<br>自动检测逻辑优化<br>部分常用方法改为内联函数，提高运行效率</p>
+<p>version 1.1.2<br>绘制逻辑优化，改为异步绘制（源码修改自YYTextAsyncLayer）</p>
+<p>version 1.1.3<br>异步绘制改造完成、去除事务管理类，事务管理类仍可改进，进行中</p>
+<p>version 1.1.4<br>事务管理类去除，异步绘制文件抽出</p>
+<p>version 1.1.5<br>添加网络图片异步加载库，支持绘制网络图片</p>
+</blockquote>
+<p><img src="http://upload-images.jianshu.io/upload_images/1835430-bc004dc959f7b675.gif?imageMogr2/auto-orient/strip" alt="DWCoreTextLabel"></p>
+<p>插入图片、绘制图片、添加事件统统一句话实现~</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1835430-456beaed3f710b02.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="一句话实现"></p>
+<p>尽可能保持系统Label属性让你可以无缝过渡使用~</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1835430-e7706ffe827b1ea1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="无缝过渡"></p>
+<p>恩，说了这么多，老司机放一下地址：<a href="https://github.com/CodeWicky/DWCoreTextLabel" target="_blank" rel="external">DWCoreTextLabel</a>，宝宝们给个star吧~爱你哟~</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1835430-1a477250d897b4b1.jpeg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="爱你哟"></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>各位土豪大佬觉得好的话可以随意打赏下~</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="http://or3w6eypz.bkt.clouddn.com/blogTheme/NexT/png/wxPay.jpeg" alt="CodeWicky WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="http://or3w6eypz.bkt.clouddn.com/blogTheme/NexT/png/aliPay.jpeg" alt="CodeWicky Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/CAAnimation/" rel="tag"># CAAnimation</a>
+          
+            <a href="/tags/核心动画/" rel="tag"># 核心动画</a>
+          
+            <a href="/tags/粒子效果/" rel="tag"># 粒子效果</a>
+          
+            <a href="/tags/大图绘制/" rel="tag"># 大图绘制</a>
+          
+            <a href="/tags/异步绘制/" rel="tag"># 异步绘制</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/12/25/CoreText实现图文混排之文字环绕及点击算法/" rel="next" title="CoreText实现图文混排之文字环绕及点击算法">
+                <i class="fa fa-chevron-left"></i> CoreText实现图文混排之文字环绕及点击算法
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/02/15/老司机出品——包教包会之玩转正则表达式/" rel="prev" title="老司机出品——包教包会之玩转正则表达式">
+                老司机出品——包教包会之玩转正则表达式 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="SOHUCS"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="CodeWicky" />
+          <p class="site-author-name" itemprop="name">CodeWicky</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">18</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">26</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/CodeWicky" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.jianshu.com/u/a56ec10f6603" target="_blank" title="简书">
+                  
+                    <i class="fa fa-fw fa-user-circle"></i>
+                  
+                  简书
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="mailto:codewicky@163.com" target="_blank" title="E-Mail">
+                  
+                    <i class="fa fa-fw fa-envelope"></i>
+                  
+                  E-Mail
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#CAEmitterLayer"><span class="nav-number">1.</span> <span class="nav-text">CAEmitterLayer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CATiledLayer"><span class="nav-number">2.</span> <span class="nav-text">CATiledLayer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#异步绘制"><span class="nav-number">3.</span> <span class="nav-text">异步绘制</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CodeWicky</span>
+</div>
+
+
+<div class="theme-info">
+<p>Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a></p>
+</div>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+  
+  <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+  
+    <script type="text/javascript">
+    (function(){
+      var appid = 'cyt3f8T5R';
+      var conf = '5034be04c3b67fdcb8fbc7661b2c48bd';
+      var width = window.innerWidth || document.documentElement.clientWidth;
+      if (width < 960) {
+      window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){
+        window.changyan.api.config({appid:appid,conf:conf})});
+      }
+    })();
+    </script>
+    <script type="text/javascript" src="https://assets.changyan.sohu.com/upload/plugins/plugins.count.js"></script>
+  
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("1IlPuOHFMSDCU3gbiqhOUE7m-gzGzoHsz", "11zBsvOWeJCGzXNguE7305pF");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

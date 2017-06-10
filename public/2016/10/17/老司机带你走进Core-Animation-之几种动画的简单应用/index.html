@@ -1,0 +1,1057 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="CAAnimation,核心动画,动画," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/Favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="系列文章：  老司机带你走进Core Animation 之CAAnimation 老司机带你走进Core Animation 之CADisplayLink 老司机带你走进Core Animation 之几种动画的简单应用 老司机带你走进Core Animation 之CAShapeLayer和CATextLayer 老司机带你走进Core Animation 之图层的透视、渐变及复制 老司机带">
+<meta name="keywords" content="CAAnimation,核心动画,动画">
+<meta property="og:type" content="article">
+<meta property="og:title" content="老司机带你走进Core Animation 之几种动画的简单应用">
+<meta property="og:url" content="http://codewicky.coding.me/2016/10/17/老司机带你走进Core-Animation-之几种动画的简单应用/index.html">
+<meta property="og:site_name" content="R &amp; W">
+<meta property="og:description" content="系列文章：  老司机带你走进Core Animation 之CAAnimation 老司机带你走进Core Animation 之CADisplayLink 老司机带你走进Core Animation 之几种动画的简单应用 老司机带你走进Core Animation 之CAShapeLayer和CATextLayer 老司机带你走进Core Animation 之图层的透视、渐变及复制 老司机带">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1835430-1737a066b7319b0d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1835430-d74c1c9bdeba5f3f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1835430-871a34118f5e1d41.gif?imageMogr2/auto-orient/strip">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1835430-e4e8b0e5407ca525.gif?imageMogr2/auto-orient/strip">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1835430-2b42571913401c68.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1835430-b41b9f8b7edb5e62.gif?imageMogr2/auto-orient/strip">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1835430-1d727fcd1edc50a9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1835430-b49f2dacb7fdccb4.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2017-06-04T23:33:44.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="老司机带你走进Core Animation 之几种动画的简单应用">
+<meta name="twitter:description" content="系列文章：  老司机带你走进Core Animation 之CAAnimation 老司机带你走进Core Animation 之CADisplayLink 老司机带你走进Core Animation 之几种动画的简单应用 老司机带你走进Core Animation 之CAShapeLayer和CATextLayer 老司机带你走进Core Animation 之图层的透视、渐变及复制 老司机带">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/1835430-1737a066b7319b0d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":true},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://codewicky.coding.me/2016/10/17/老司机带你走进Core-Animation-之几种动画的简单应用/"/>
+
+
+
+
+
+  <title>老司机带你走进Core Animation 之几种动画的简单应用 | R & W</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">R & W</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description">愿得今朝图鸿志，不作江郎叹息声。</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-messageboard">
+          <a href="/messageBoard" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            留言板
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://codewicky.coding.me/2016/10/17/老司机带你走进Core-Animation-之几种动画的简单应用/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="CodeWicky">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="R & W">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">老司机带你走进Core Animation 之几种动画的简单应用</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-10-17T07:33:44+08:00">
+                2016-10-17
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2017-06-05T07:33:44+08:00">
+                2017-06-05
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/核心动画/" itemprop="url" rel="index">
+                    <span itemprop="name">核心动画</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-comment-o"></i>
+              </span>
+              
+                  <span class="post-meta-item-text">讨论</span>
+              
+              
+                <a href="/2016/10/17/老司机带你走进Core-Animation-之几种动画的简单应用/" itemprop="discussionUrl">
+                  <span id="changyan_count_unit" class="post-comments-count hc-comment-count" data-xid="2016/10/17/老司机带你走进Core-Animation-之几种动画的简单应用/" itemprop="commentsCount"></span>
+                </a>
+              
+            
+          
+
+          
+          
+             <span id="/2016/10/17/老司机带你走进Core-Animation-之几种动画的简单应用/" class="leancloud_visitors" data-flag-title="老司机带你走进Core Animation 之几种动画的简单应用">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="http://upload-images.jianshu.io/upload_images/1835430-1737a066b7319b0d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="老司机带你走进Core Animation 之几种动画的简单应用"></p>
+<p>系列文章：</p>
+<ul>
+<li><a href="http://www.jianshu.com/p/92a0661a21c6" target="_blank" rel="external">老司机带你走进Core Animation 之CAAnimation</a></li>
+<li><a href="http://www.jianshu.com/p/434ec6911148" target="_blank" rel="external">老司机带你走进Core Animation 之CADisplayLink</a></li>
+<li><a href="http://www.jianshu.com/p/8e14616679ea" target="_blank" rel="external">老司机带你走进Core Animation 之几种动画的简单应用</a></li>
+<li><a href="http://www.jianshu.com/p/3115050b7298" target="_blank" rel="external">老司机带你走进Core Animation 之CAShapeLayer和CATextLayer</a></li>
+<li><a href="http://www.jianshu.com/p/dedc44fe8e35" target="_blank" rel="external">老司机带你走进Core Animation 之图层的透视、渐变及复制</a></li>
+<li><a href="http://www.jianshu.com/p/29cbc1744153" target="_blank" rel="external">老司机带你走进Core Animation 之粒子发射、TileLayer与异步绘制</a></li>
+</ul>
+<hr>
+<p>之所以要写这几种简单应用呢，是为了帮大家扩展一下思维，基于<code>CAAnimation</code>和<code>CADisplayLink</code>其实我们可以做到很多事情，不过我们都还是需要一个思路。有的时候可能，拿到一个效果，我们一眼就可以看出来，哦，使用核心动画就可以搞定，然而真正上手的时候就会发现，哦，没有想象的那么简单，为什么我达到的效果不对呢？一般情况下有两种可能，要么是思路不完整，要么是思路根本就不对。CAAnimation固然灵活，但要是使用方法不当的话，也会事倍功半。所以呢，今天老司机就针对以下几种情况来介绍截个动画的实现方式。（说这么多其实就是因为这段时间一直研究这个，的确也没研究别的，哈哈哈）</p>
+<p>在这篇文章中你会看到以下一些内容：</p>
+<ul>
+<li><p>iOS中GIF动图的播放的实现方式</p>
+</li>
+<li><p>iOS系统更新图标样式的实现方式</p>
+</li>
+<li><p>自定义水波样式的HUD的实现方式</p>
+</li>
+</ul>
+<p>接下来我们就对这三个内容逐一进行一下讲解。</p>
+<a id="more"></a>
+<hr>
+<h3 id="iOS中GIF动图的播放的实现方式"><a href="#iOS中GIF动图的播放的实现方式" class="headerlink" title="iOS中GIF动图的播放的实现方式"></a>iOS中GIF动图的播放的实现方式</h3><p>我们知道，在OC中展示静态图片我们是使用UIIamgeView的，然而UIImageView对GIF动画的展示却并不友好。我知道你们一定会说UIImageView不是有组动画么，老司机当然知道有这个api，老司机最开始也是用这个api，但是有的时候就会发现播放出的gif的节奏有可能会跟原图不太一样。这是为什么呢？原来这是因为GIF文件的原因。我们知道，GIF其实就是由很多帧静态图片组成后连续播放组成的。重点就在于其实<code>每一帧的时间是可以不一样</code>的。(虽然这样的情况的确占少数)其实这种情况还好一些，我们知道系统的组动画api是<code>不支持动画的暂停与恢复的</code>，而且当<code>图片很多的时候也有很大的崩溃几率</code>，这是我们所不希望看见的，那么我们就开始想自己写一个api让他完美解决以上问题？怎么做呢？</p>
+<p>其实无非是UIImageView的图片不断切换，我自己加个定时器都可以。不过重要的还是一个思路。要想做到每一帧的时间可以不一样长，我相信用定时器很难实现吧。这个时候，我们是否可以换个思路，记得CAAnimation中可以指定每种状态时间的那个动画叫什么么还？对了，<code>CAKeyframeAnimation</code>。不记得了回头看看<a href="http://www.jianshu.com/p/92a0661a21c6" target="_blank" rel="external">这里的内容</a>。</p>
+<p>既然我们使用CAKeyframeAnimation的话，动画的暂停与恢复我们自然可以控制，只要控制好内存也就可以解决崩溃问题，那么这就是我们的思路了。</p>
+<p>有了思路就方便很多了，接下来我们只要去实现就好了。我记得以为伟大的程序猿曾经说过：</p>
+<blockquote>
+<p>程序员最不怕的就是如何实现，不会就去网上找，最怕的就是没网和没思路。                                ——老司机</p>
+</blockquote>
+<p>大体思路：</p>
+<ul>
+<li><p>解析GIF文件，获取每一帧图片及对应时长</p>
+</li>
+<li><p>构建CAKeyframeAnimation动画，以layer的contents属性去展示图片</p>
+</li>
+</ul>
+<p>就这么简单的两步。</p>
+<p>老司机这里就不上全部代码了，上一些核心的代码简单的展示一下如何实现：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1835430-d74c1c9bdeba5f3f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="展示GIF"></p>
+<p>以上就是核心代码，其实每一句的目的都很简单，可能有些函数没用过大家自己简单查一下也就都明白了。然后老司机放一下自己写的UIImageView的GIF分类，大家可以直接拿去用，在这里：</p>
+<p><a href="https://pan.baidu.com/s/1miApoko" target="_blank" rel="external">点我去下载</a></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1835430-871a34118f5e1d41.gif?imageMogr2/auto-orient/strip" alt="效果图，中间是我点暂停了=。="></p>
+<hr>
+<h3 id="iOS系统更新图标样式的实现方式"><a href="#iOS系统更新图标样式的实现方式" class="headerlink" title="iOS系统更新图标样式的实现方式"></a>iOS系统更新图标样式的实现方式</h3><p>这个只得是什么呢？就是iOS中APP更新的时候在ICON上不是有一个更新的动画么？像下面这个样子：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1835430-e4e8b0e5407ca525.gif?imageMogr2/auto-orient/strip" alt="仿系统更新样式"></p>
+<p>这里我们就针对这个动画的实现方式进行一下探讨。</p>
+<p>说实话拿到这个需求老司机第一反应是<code>CABasicAnimation</code>。因为我们知道这个<code>不规则的形状我们完全可以使用CAShapeLayer去绘制</code>（关于CoreAnimation中CALayer的个个子类老司机会在接下来的博客中逐一跟新，敬请期待）。<code>不同的path可以绘制出不同的形状，而且path属性又是animutable的</code>。貌似轻松地很。然而真正写了一下老司机发现自己还是太天真了，CABasicAnimation是基于始末状态的补间动画，然而老司机又根本拿不准他自动补充的计算方式，所以写出来的动画跟预期的总是有一定的差距，老司机的思路层一度陷入僵局。后来老司机<code>换了一个思路</code>，既然用不了补间动画，我就<code>一帧一帧画</code>吧。这里就用到了<code>CADisplayLink</code>（不熟悉的小伙伴来<a href="http://www.jianshu.com/p/434ec6911148" target="_blank" rel="external">这里补票</a>）。</p>
+<p>大体思路：</p>
+<ul>
+<li><p>找出能代表动画中每一种状态的path</p>
+</li>
+<li><p>使用CADisplayLink反复绘制</p>
+</li>
+</ul>
+<p>首先我们找一下这个路径要如何表示：</p>
+<p>这里没有什么诀窍啊，高中数学啊，就是硬画啊，直接上代码</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1835430-2b42571913401c68.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="路径计算"></p>
+<p>这里属性和参数老司机解释一下<code>self.sRadius是中间非暂停状态下的扇形半径</code>。参数<code>percent是将要绘制的路径的角度百分比</code>，suspendR是大家能看到暂停状态下是从中心不断扩大一个圆的，<code>suspendR就是当前正要绘制的那个圆的半径</code>（注意并不是那个圆最终要变成的半径，而是当前的）。通过这三个变量老司机就能画出这个指示器各个状态的路径。（是不是很腻害，毕竟数学课代表，啧啧啧）</p>
+<p>这里重点讲的是动画的绘制，calayer的绘制老司机会在接下来的博客里面慢慢介绍，本例中用到的<code>中空的layer使用</code>了两种绘制方式，<code>usesEvenOddFillRule</code>和<code>mask</code>两种，稍后放的demo里面会有具体代码，大家看一下就好。</p>
+<p>接下来就是<code>使用CADisplayLink去一帧一帧绘制</code>了，这也是上一期讲过的内容了，老司机也不废话了，一切尽在demo吧：</p>
+<p><a href="https://pan.baidu.com/s/1miApoko" target="_blank" rel="external">点我去下载</a></p>
+<hr>
+<h3 id="自定义水波样式的HUD的实现方式"><a href="#自定义水波样式的HUD的实现方式" class="headerlink" title="自定义水波样式的HUD的实现方式"></a>自定义水波样式的HUD的实现方式</h3><p>闲的无聊写的一个效果，先看图：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1835430-b41b9f8b7edb5e62.gif?imageMogr2/auto-orient/strip" alt="波浪指示器"></p>
+<p>其实这个效果还挺有意思的，那么如何实现呢？</p>
+<p>其实有了上面的铺垫你应该会马上反映出两种思路：CAAnimation动画或者一帧一帧绘制。</p>
+<p>这里老司机说一句，本质上，<code>如果补间动画能完成效果的话，尽量使用CAAnimation</code>，不用一帧帧绘制，<code>代码量少了，cpu压力也小点</code>。但是一般情况写复杂的补间动画都画不出来，比如说这个。</p>
+<p>我们还是分析一下需求，首先我们需要<code>一条浪线</code>，其次这条浪线<code>还要能涨高</code>。我们可以<code>通过改变正弦曲线的相位</code>来使波浪左右摆动起来，改变正弦曲线k值改变波浪的高度。（事实上老司机使用的是<code>三次贝塞尔曲线</code>模拟的正弦曲线，效果相似，只不过OC中没有正弦曲线的封装，想绘制正弦曲线的话会增加很多计算量）。</p>
+<p>思路都在那，这个路径的绘制代码比较多，我就不截图了，也是在demo中大家看一下就好，一步一步思路都很清晰，还有老司机一向是注释详细的，你懂我~</p>
+<p><a href="https://pan.baidu.com/s/1miApoko" target="_blank" rel="external">点我去下载</a></p>
+<hr>
+<p>恩，这次主要是想给大家<code>提供一下思路的扩展</code>，毕竟学会了动画要会用才是正道。</p>
+<p>另外，我还要推荐老司机出品的DWAnimation，帮你清爽的生成CALayer的属性动画，并且任意拼接，组合~</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1835430-1d727fcd1edc50a9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="优雅么"></p>
+<p>gitHub下载地址：<a href="https://github.com/CodeWicky/DWAnimation" target="_blank" rel="external">DWAnimation</a><br>欢迎给我star哦~</p>
+<p>恩，转载记得注明出处哦~</p>
+<p><strong>如果你觉得本篇文章对你有帮助，麻烦你给我点个赞!</strong></p>
+<p><strong>如果你就喜欢老司机这墨迹劲你再加个关注!</strong></p>
+<p><strong>如果你爱上老司机了你也可以给我打赏!</strong></p>
+<p><strong>但是就算你给我打赏我也只卖艺，不卖身。</strong></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1835430-b49f2dacb7fdccb4.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="不卖身"></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>各位土豪大佬觉得好的话可以随意打赏下~</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="http://or3w6eypz.bkt.clouddn.com/blogTheme/NexT/png/wxPay.jpeg" alt="CodeWicky WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="http://or3w6eypz.bkt.clouddn.com/blogTheme/NexT/png/aliPay.jpeg" alt="CodeWicky Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/CAAnimation/" rel="tag"># CAAnimation</a>
+          
+            <a href="/tags/核心动画/" rel="tag"># 核心动画</a>
+          
+            <a href="/tags/动画/" rel="tag"># 动画</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/09/21/老司机带你走进Core-Animation-之CADisplayLink/" rel="next" title="老司机带你走进Core Animation 之CADisplayLink">
+                <i class="fa fa-chevron-left"></i> 老司机带你走进Core Animation 之CADisplayLink
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/11/19/老司机带你走进Core-Animation-之CAShapeLayer和CATextLayer/" rel="prev" title="老司机带你走进Core Animation 之CAShapeLayer和CATextLayer">
+                老司机带你走进Core Animation 之CAShapeLayer和CATextLayer <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="SOHUCS"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="CodeWicky" />
+          <p class="site-author-name" itemprop="name">CodeWicky</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">18</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">26</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/CodeWicky" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.jianshu.com/u/a56ec10f6603" target="_blank" title="简书">
+                  
+                    <i class="fa fa-fw fa-user-circle"></i>
+                  
+                  简书
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="mailto:codewicky@163.com" target="_blank" title="E-Mail">
+                  
+                    <i class="fa fa-fw fa-envelope"></i>
+                  
+                  E-Mail
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#iOS中GIF动图的播放的实现方式"><span class="nav-number">1.</span> <span class="nav-text">iOS中GIF动图的播放的实现方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#iOS系统更新图标样式的实现方式"><span class="nav-number">2.</span> <span class="nav-text">iOS系统更新图标样式的实现方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#自定义水波样式的HUD的实现方式"><span class="nav-number">3.</span> <span class="nav-text">自定义水波样式的HUD的实现方式</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CodeWicky</span>
+</div>
+
+
+<div class="theme-info">
+<p>Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a></p>
+</div>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+  
+  <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+  
+    <script type="text/javascript">
+    (function(){
+      var appid = 'cyt3f8T5R';
+      var conf = '5034be04c3b67fdcb8fbc7661b2c48bd';
+      var width = window.innerWidth || document.documentElement.clientWidth;
+      if (width < 960) {
+      window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){
+        window.changyan.api.config({appid:appid,conf:conf})});
+      }
+    })();
+    </script>
+    <script type="text/javascript" src="https://assets.changyan.sohu.com/upload/plugins/plugins.count.js"></script>
+  
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("1IlPuOHFMSDCU3gbiqhOUE7m-gzGzoHsz", "11zBsvOWeJCGzXNguE7305pF");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

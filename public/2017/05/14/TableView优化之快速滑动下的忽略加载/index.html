@@ -1,0 +1,1075 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="TableView优化,忽略加载," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/Favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="系列文章：  TableView优化之高度缓存功能  TableView优化之加载图片的优化逻辑  TableView优化之快速滑动下的忽略加载    最近在搞什么，所以就顺手写点什么咯~ 这两天一直在搞一个TableView的工具类，因为觉得这个东西写完可以一劳永逸，所以就去搞了一下，主要是有助于TableView的快捷开发。没什么好废话的了，直接说事吧=。= 在今天的博客中你可能会看到：">
+<meta name="keywords" content="TableView优化,忽略加载">
+<meta property="og:type" content="article">
+<meta property="og:title" content="TableView优化之快速滑动下的忽略加载">
+<meta property="og:url" content="http://codewicky.coding.me/2017/05/14/TableView优化之快速滑动下的忽略加载/index.html">
+<meta property="og:site_name" content="R &amp; W">
+<meta property="og:description" content="系列文章：  TableView优化之高度缓存功能  TableView优化之加载图片的优化逻辑  TableView优化之快速滑动下的忽略加载    最近在搞什么，所以就顺手写点什么咯~ 这两天一直在搞一个TableView的工具类，因为觉得这个东西写完可以一劳永逸，所以就去搞了一下，主要是有助于TableView的快捷开发。没什么好废话的了，直接说事吧=。= 在今天的博客中你可能会看到：">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1835430-13da7ca8ce7602d4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1835430-3b67fb2cbb3cdccc.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1835430-88033ea7bfde7ee3.gif?imageMogr2/auto-orient/strip">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1835430-690063c9d0cecc7c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1835430-eb7262ea8c5d87f0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1835430-8d9a3f231a8ac39d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1835430-8a2f5542d40a2965.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1494754370835&di=3edf2dea5efdf9b4da0427f1d1a69b16&imgtype=0&src=http%3A%2F%2Fnews.k618.cn%2Fsociety%2F201703%2FW020170325684515461265.png">
+<meta property="og:updated_time" content="2017-06-04T23:33:44.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="TableView优化之快速滑动下的忽略加载">
+<meta name="twitter:description" content="系列文章：  TableView优化之高度缓存功能  TableView优化之加载图片的优化逻辑  TableView优化之快速滑动下的忽略加载    最近在搞什么，所以就顺手写点什么咯~ 这两天一直在搞一个TableView的工具类，因为觉得这个东西写完可以一劳永逸，所以就去搞了一下，主要是有助于TableView的快捷开发。没什么好废话的了，直接说事吧=。= 在今天的博客中你可能会看到：">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/1835430-13da7ca8ce7602d4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":true},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://codewicky.coding.me/2017/05/14/TableView优化之快速滑动下的忽略加载/"/>
+
+
+
+
+
+  <title>TableView优化之快速滑动下的忽略加载 | R & W</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">R & W</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description">愿得今朝图鸿志，不作江郎叹息声。</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-messageboard">
+          <a href="/messageBoard" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            留言板
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://codewicky.coding.me/2017/05/14/TableView优化之快速滑动下的忽略加载/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="CodeWicky">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="R & W">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">TableView优化之快速滑动下的忽略加载</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-14T07:33:44+08:00">
+                2017-05-14
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2017-06-05T07:33:44+08:00">
+                2017-06-05
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/性能优化/" itemprop="url" rel="index">
+                    <span itemprop="name">性能优化</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-comment-o"></i>
+              </span>
+              
+                  <span class="post-meta-item-text">讨论</span>
+              
+              
+                <a href="/2017/05/14/TableView优化之快速滑动下的忽略加载/" itemprop="discussionUrl">
+                  <span id="changyan_count_unit" class="post-comments-count hc-comment-count" data-xid="2017/05/14/TableView优化之快速滑动下的忽略加载/" itemprop="commentsCount"></span>
+                </a>
+              
+            
+          
+
+          
+          
+             <span id="/2017/05/14/TableView优化之快速滑动下的忽略加载/" class="leancloud_visitors" data-flag-title="TableView优化之快速滑动下的忽略加载">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="http://upload-images.jianshu.io/upload_images/1835430-13da7ca8ce7602d4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="TableView优化之快速滑动下的忽略加载"></p>
+<p>系列文章：</p>
+<ul>
+<li><p><a href="http://www.jianshu.com/p/2b192257276f" target="_blank" rel="external">TableView优化之高度缓存功能</a></p>
+</li>
+<li><p><a href="http://www.jianshu.com/p/328e503900d0" target="_blank" rel="external">TableView优化之加载图片的优化逻辑</a></p>
+</li>
+<li><p><a href="http://www.jianshu.com/p/0b020518de5e" target="_blank" rel="external">TableView优化之快速滑动下的忽略加载</a></p>
+</li>
+</ul>
+<hr>
+<p>最近在搞什么，所以就顺手写点什么咯~</p>
+<p>这两天一直在搞一个TableView的工具类，因为觉得这个东西写完可以一劳永逸，所以就去搞了一下，主要是有助于TableView的快捷开发。没什么好废话的了，直接说事吧=。=</p>
+<p>在今天的博客中你可能会看到：</p>
+<ul>
+<li>VVeboTableView中Cell加载逻辑的解析</li>
+<li>TableView代码解耦的基本思路</li>
+</ul>
+<p>恩，东西不多，一点一点说~</p>
+<a id="more"></a>
+<hr>
+<h3 id="VVeboTableView"><a href="#VVeboTableView" class="headerlink" title="VVeboTableView"></a>VVeboTableView</h3><p>其实这是VVebo项目中作者分享剥离的一个Demo，来告诉我们他是怎么优化TableView的流畅性的。</p>
+<p>那么VVebo是什么呢？看名字你就猜吧，像不像微博，是的，它就是一款新浪微博的第三方客户端，当年还是有很多人追捧的，不过后来新浪逐渐收回开发接口导致很多功能无法实现就把VVebo给坑了。</p>
+<p>那么为什么VVebo使用率那么高呢？一方面是当时新浪微博客户端的确不行，另一方面VVebo简约的风格和流畅的体验俘获了一大批用户。所以今天我们就来探究一下他是如何做到TableView的丝滑体验的。</p>
+<p>首先你可以在<a href="https://github.com/johnil/VVeboTableViewDemo" target="_blank" rel="external">这里现在一份源码</a>，毕竟源码面前没有秘密。</p>
+<p>在老司机看来，作者最有效的优化分为4部分：</p>
+<ul>
+<li>TableViewCell圆角优化</li>
+<li>缓存行高</li>
+<li>相对固定的图片及文字采用CoreText绘制</li>
+<li>TableView加载数据逻辑优化</li>
+</ul>
+<hr>
+<h4 id="圆角"><a href="#圆角" class="headerlink" title="圆角"></a>圆角</h4><p>这部分作者的优化很简单，<strong>他没有画圆角！</strong>圆角是TableViewCell的帧率杀手大家都知道吧，所以人家根本就没有画圆角。他是怎么做的呢？<code>覆盖了与背景色同色的圆角图片</code>，简单粗暴，果然是个心机boy。</p>
+<p>不过关于圆角的优化，还是有更好的解决办法的，<a href="http://www.jianshu.com/p/f970872fdc22" target="_blank" rel="external">在这里</a>。不想看的话我给你总结一下，就两点：</p>
+<ul>
+<li>别冤枉cornerRadius，问题不在它。而<strong>在于maskToBounds</strong>。普通的UIView绘制圆角时并不需要maskToBounds属性。也就是普通的视图圆角对卡顿没有影响。</li>
+<li>既然有普通就有特殊：UIImageView和UILabel以及我还没有发现的=。=对于UIImage的处理建议先借助CoreGraphic处理图片吧，<strong>直接绘制一个带圆角的图片给ImageView吧</strong>。对于Label没有太好的优化方案，是在不行只能CoreText了。其实你会发现，UILable这个控件对中文<strong>十！分！不！友！好！</strong>很多细节上中文跟英文或者字符会有很大的差异，但是你有不能不用他，好气哦=。=</li>
+</ul>
+<hr>
+<h4 id="缓存行高"><a href="#缓存行高" class="headerlink" title="缓存行高"></a>缓存行高</h4><p>这部分内容老司机在上一期讲述过不定高cell行高缓存的必要性及缓存的方法，这里不再赘述。</p>
+<hr>
+<h4 id="CoreText绘制文本"><a href="#CoreText绘制文本" class="headerlink" title="CoreText绘制文本"></a>CoreText绘制文本</h4><p>首先，复杂的<code>层级关系同样会给cell在绘制时添加很大的负担</code>，这点是毋庸置疑的，所以VVebo的作者选择了将一些相对重复性很大的视图选择使用CoreText和CoreGraphic技术直接绘制在一个视图上，这样就<code>减少了视图的层级</code>，为流畅性又添了一份可能。CoreText绘制文本的和图片的技术你可以在老司机的<a href="http://www.jianshu.com/p/6db3289fb05d" target="_blank" rel="external">CoreText实现图文混排系列</a>中得到详细的实现方法，想看的去看吧。</p>
+<hr>
+<h4 id="TableView加载数据逻辑优化"><a href="#TableView加载数据逻辑优化" class="headerlink" title="TableView加载数据逻辑优化"></a>TableView加载数据逻辑优化</h4><p>到现在为止终于要讲点之前没有说过的了=。=</p>
+<p>说以下主体思路，VVebo的作者认为，<strong>当用户快速滑动的时候，事实上他对滑动过程中的内容是不关心的</strong>，他只关心滚动结束处的内容，那么用户不关心的内容她就选择了不加载。</p>
+<p>这是他的主体思路，来看下这部分的实现代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div></pre></td><td class="code"><pre><div class="line">- (void)drawCell:(VVeboTableViewCell *)cell withIndexPath:(NSIndexPath *)indexPath&#123;</div><div class="line">    NSDictionary *data = [datas objectAtIndex:indexPath.row];</div><div class="line">    cell.selectionStyle = UITableViewCellSelectionStyleNone;</div><div class="line">    //清除cell内容，解决复用问题</div><div class="line">    [cell clear];</div><div class="line">    cell.data = data;</div><div class="line">  //判断如果needLoadArr中含有需要加载的indexPath而当前indexPath又不在其中的时候，则不绘制cell直接返回</div><div class="line">    if (needLoadArr.count&gt;0&amp;&amp;[needLoadArr indexOfObject:indexPath]==NSNotFound) &#123;</div><div class="line">        [cell clear];</div><div class="line">        return;</div><div class="line">    &#125;</div><div class="line">  //判断如果scrollToToping为真的时候（及点击状态栏快速回到TableView顶部的时候）不绘制cell</div><div class="line">    if (scrollToToping) &#123;</div><div class="line">        return;</div><div class="line">    &#125;</div><div class="line">    //上面都没问题的话，绘制cell</div><div class="line">    [cell draw];</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath&#123;</div><div class="line">    VVeboTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@&quot;cell&quot;];</div><div class="line">    if (cell==nil) &#123;</div><div class="line">        cell = [[VVeboTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault</div><div class="line">                                         reuseIdentifier:@&quot;cell&quot;];</div><div class="line">    &#125;</div><div class="line">    [self drawCell:cell withIndexPath:indexPath];</div><div class="line">    return cell;</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView&#123;</div><div class="line">    [needLoadArr removeAllObjects];</div><div class="line">&#125;</div><div class="line"></div><div class="line">//按需加载 - 如果目标行与当前行相差超过指定行数，只在目标滚动范围的前后指定3行加载。</div><div class="line">- (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset&#123;</div><div class="line">//取出滚动停止时展示的第一个cell的indexPath</div><div class="line">    NSIndexPath *ip = [self indexPathForRowAtPoint:CGPointMake(0, targetContentOffset-&gt;y)];</div><div class="line">//取出当前展示的第一个cell的indexPath</div><div class="line">    NSIndexPath *cip = [[self indexPathsForVisibleRows] firstObject];</div><div class="line">    NSInteger skipCount = 8;</div><div class="line">//如果两者之间差距很大则认为滑动速度很快，中间用户都不关心，直接把滚动停止时的展示的cell加入到needLoadArr数组中</div><div class="line">    if (labs(cip.row-ip.row)&gt;skipCount) &#123;</div><div class="line">        NSArray *temp = [self indexPathsForRowsInRect:CGRectMake(0, targetContentOffset-&gt;y, self.width, self.height)];</div><div class="line">        NSMutableArray *arr = [NSMutableArray arrayWithArray:temp];</div><div class="line">//根据滚动方向在前或后额外添加三个需要展示的cell，这样看起来好像更加平滑的样子</div><div class="line">        if (velocity.y&lt;0) &#123;</div><div class="line">            NSIndexPath *indexPath = [temp lastObject];</div><div class="line">            if (indexPath.row+3&lt;datas.count) &#123;</div><div class="line">                [arr addObject:[NSIndexPath indexPathForRow:indexPath.row+1 inSection:0]];</div><div class="line">                [arr addObject:[NSIndexPath indexPathForRow:indexPath.row+2 inSection:0]];</div><div class="line">                [arr addObject:[NSIndexPath indexPathForRow:indexPath.row+3 inSection:0]];</div><div class="line">            &#125;</div><div class="line">        &#125; else &#123;</div><div class="line">            NSIndexPath *indexPath = [temp firstObject];</div><div class="line">            if (indexPath.row&gt;3) &#123;</div><div class="line">                [arr addObject:[NSIndexPath indexPathForRow:indexPath.row-3 inSection:0]];</div><div class="line">                [arr addObject:[NSIndexPath indexPathForRow:indexPath.row-2 inSection:0]];</div><div class="line">                [arr addObject:[NSIndexPath indexPathForRow:indexPath.row-1 inSection:0]];</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        [needLoadArr addObjectsFromArray:arr];</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (BOOL)scrollViewShouldScrollToTop:(UIScrollView *)scrollView&#123;</div><div class="line">    scrollToToping = YES;</div><div class="line">    return YES;</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView&#123;</div><div class="line">    scrollToToping = NO;</div><div class="line">    [self loadContent];</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (void)scrollViewDidScrollToTop:(UIScrollView *)scrollView&#123;</div><div class="line">    scrollToToping = NO;</div><div class="line">    [self loadContent];</div><div class="line">&#125;</div><div class="line"></div><div class="line">//用户触摸时第一时间加载内容</div><div class="line">- (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event&#123;</div><div class="line">    if (!scrollToToping) &#123;</div><div class="line">        [needLoadArr removeAllObjects];</div><div class="line">        [self loadContent];</div><div class="line">    &#125;</div><div class="line">    return [super hitTest:point withEvent:event];</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (void)loadContent&#123;</div><div class="line">    if (scrollToToping) &#123;</div><div class="line">        return;</div><div class="line">    &#125;</div><div class="line">    if (self.indexPathsForVisibleRows.count&lt;=0) &#123;</div><div class="line">        return;</div><div class="line">    &#125;</div><div class="line">    if (self.visibleCells&amp;&amp;self.visibleCells.count&gt;0) &#123;</div><div class="line">        for (id temp in [self.visibleCells copy]) &#123;</div><div class="line">            VVeboTableViewCell *cell = (VVeboTableViewCell *)temp;</div><div class="line">            [cell draw];</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>其实是就100行代码，思路还是很清晰明了的。作者主要是通过<br><code>-drawCell:withIndexPath:</code>这个方法来控制cell的绘制行为的。我们看看他做了什么？</p>
+<p>首先他<strong>cell调用了clear方法</strong>，这是VVeboTableViewCell中作者自己实现的方法，用于清除cell上面展示的内容，这样可以<strong>避免因cell重用而导致没有绘制</strong>的cell会显示之前的内容的问题。然后是判断<strong>needLoadArr</strong>中是否包含有当前indexPath，若没有返回。继续判断当前TableView是否处于<strong>快速回到顶部的过程中</strong>，如果是的话也不绘制。<strong>最后上述条件都满足的时候再进行cell的绘制</strong>。</p>
+<p>所以重点来了，needLoadArr什么时候添加的元素？如何获取到TableView快速回到顶部的时间点？</p>
+<blockquote>
+<p>第二点好说，点击状态栏的时候，TableView会询问代理  <code>- scrollViewShouldScrollToTop:</code>只有返回YES的时候才会快速回到顶部，这时我们可以在这捕获到这个状态。但是可以看到作者并没有在这选择添加顶部可能要展示的cell进needLoadArr数组，那么当他滚动到顶部的时候我们要将顶部的cell进行直接更新，所以通过<code>- scrollViewDidEndScrollingAnimation:</code>和<code>- scrollViewShouldScrollToTop:</code>两个代理拿到到达顶部的状态后直接更新当前cell。</p>
+</blockquote>
+<p>回过头来我们说下第一点，needLoadArr是怎么操作呢？<br>我们知道我们是要判断TableView快速滑动，那我们怎么拿到这个行为呢？要知道没有什么代理是直接反应滚动速度的，这里作者很取巧的用到了<code>-scrollViewWillEndDragging:withVelocity:targetContentOffset:</code>这个代理。<br>这个代理在手指即将结束拖动的时候出发，他会告诉外界当前的速度及这次会滚动到的位置。</p>
+<blockquote>
+<p>所以作者在这里判断了目标位置与当前位置相差间隔，如果很大的话则认为中间内容不需加载，直接添加目标位置的内容进入数组。</p>
+</blockquote>
+<p>恩，以上就是VVebo作者对数据加载逻辑的优化。</p>
+<p>这是依靠着上述四点，VVebo才获得了完美的滑动体验，其<code>思路也是我们开发中可以学习和借鉴的</code>。</p>
+<hr>
+<h3 id="TableView解耦"><a href="#TableView解耦" class="headerlink" title="TableView解耦"></a>TableView解耦</h3><p>这部分内容也不是什么新鲜事，也是比较靠谱的一个思路。当然了这部分内容不是对性能的优化，而是对代码的优化。</p>
+<p>天天写TableView里面的代理是不是很烦人啊，<strong>千篇一律又不能不写</strong>。所以想一个方法只写一次以后拿来直接用吧=。=</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1835430-3b67fb2cbb3cdccc.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="效果图"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1835430-88033ea7bfde7ee3.gif?imageMogr2/auto-orient/strip" alt="真机不卡！真机不卡！真机不卡！重要的事情说三遍"></p>
+<p>放一个效果图，老司机写的控制器里面看不到任何一个TableView代理然而还是能正常显示并实现很多功能。</p>
+<p>但是代码怎么可能不写，只是我在别的地方写过了，并且花了大把时间进行解耦，让每一个TableView都能拿来就直接使用。</p>
+<p>那么这个解耦的类我们要怎么写呢？</p>
+<p>好的，我们来新建一个文件。<br><img src="http://upload-images.jianshu.io/upload_images/1835430-690063c9d0cecc7c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="helper类"></p>
+<p>这个类只需要一个属性，是一个数组。就是你平常写TableView的时候的数据源。</p>
+<p>然后在.m中我们就可以像平常写TableView一样在这里面写代理了。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1835430-eb7262ea8c5d87f0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="假装写了两个代理"></p>
+<p>无视我的cell和model，嫌累没创建=。=</p>
+<p>最后在VC中把TableView的dataSource设成Helper就好了。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1835430-8d9a3f231a8ac39d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="无视我这代码，我就是给你展现个逻辑，细写嫌累"></p>
+<p><strong>重点是别忘了持有helper类</strong>。tableView对dataSource是弱引用，如果不持有helper就被释放了。<br>就是这么一个思路。的确该写你都写了，不过好处就是你以后把helper类拿到另一个工程还可以直接用。</p>
+<p>恩，思路就是这么简单的一个思路，不过你可以把你的helper类写的功能更加丰富一些。比如说我的helper类。老司机添加了<strong>高度缓存、滚动优化</strong>等优化功能，并且对<strong>选择、展示动画、无数据占位图</strong>等常用功能都进行了支持。而且老司机也在不断的丰富helper类的功能。</p>
+<p>只放一个版本更新记录吧，代码放不下=。=</p>
+<blockquote>
+<p>/**<br> DWTableViewHelper<br> TableView工具类<br> 抽出TableView代理，减小VC压力，添加常用代理映射</p>
+<p>version 1.0.0<br> 添加常用代理映射<br> 添加helper基础属性</p>
+<p>version 1.0.1<br> 去除注册，改为更适用的重用模式</p>
+<p>version 1.0.2<br> 添加多分组模式</p>
+<p>version 1.0.3<br> 添加选择模式及相关api</p>
+<p>version 1.0.4<br> 添加helper设置cell类型及复用标识</p>
+<p>version 1.0.5<br> 将cell的基础属性提出协议，helper与model同时遵守协议</p>
+<p>version 1.0.6<br> 修正占位视图展示时机，提供两个刷新列表扩展方法，提供展示、隐藏占位图接口</p>
+<p>version 1.0.7<br> 添加选则模式下单选多选控制</p>
+<p>version 1.0.8<br> 补充组头视图、尾视图行高代理映射并简化代理链</p>
+<p>version 1.0.9<br> cell基类添加父类实现强制调用宏、断言中给出未能加载的cell类名</p>
+<p>version 1.1.0<br> 改变cell划线机制，改为系统分割线，添加分割线归0方法<br> 添加自动行高计算并缓存<br> cell添加xib支持<br> 修复选择模式选中后关闭再次开启选择同一个无法选中bug<br> 更换去除选择背景方式，解决与选择模式的冲突<br> 映射所有代理</p>
+<p>version 1.1.1<br> 添加自适应模式最小行高限制及最大行高设置<br> 添加数据源的容错机制，但这并不是你故意写错的理由=。=<br> 添加屏幕判断，当位置方向时，默认返回竖屏<br> 额外补充动画代理、支持CAAnimation及DWAnimation</p>
+<p>version 1.1.2<br> 展示动画逻辑修改，DWAnimation动画展示方法替换</p>
+<p>version 1.1.3<br> 滚动优化模式添加<br> 高速忽略模式完成<br> 懒加载模式完成<br> 懒加载模式动画隐藏，更加平滑，修复刷新bug。<br> 有没有美工妹子给切几张占位图。。我做的图太丑了。。</p>
+<p>*/</p>
+</blockquote>
+<p>是的，所以说你玩去那可以<strong>写一个什么都能做的Helper</strong>。</p>
+<p>正如我最开始的效果图。如果你想看看我还对Helper做了什么你可以去我的仓库上面看<a href="https://github.com/CodeWicky/DWTableViewHelper" target="_blank" rel="external">DWTableViewHelper</a>。</p>
+<p>你想直接用也可以，你可以去GitHub上面直接托一份，也可以用cocoaPods集成：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">pod &apos;DWTableViewHelper&apos;, &apos;~&gt; 1.1.2&apos;</div></pre></td></tr></table></figure></p>
+<p>DWTableViewHelper类当前为1.1.2版本，滚动优化在1.1.3版本pod还没有发，因为在测试看有没有什么bug，而且老司机做的图有的丑，急需会美工的妹子帮我切两张图，汉子也行，<code>愿意帮忙的私信我</code>=。=</p>
+<p>如果你想看看老司机的所有pods项目的话，你也可以打开终端，输入<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">pod search wicky</div></pre></td></tr></table></figure></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1835430-8a2f5542d40a2965.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="pod search wicky"></p>
+<p>最后，双击666，加波关注，点波star，老铁没毛病！<br><img src="https://timgsa.baidu.com/timg?image&amp;quality=80&amp;size=b9999_10000&amp;sec=1494754370835&amp;di=3edf2dea5efdf9b4da0427f1d1a69b16&amp;imgtype=0&amp;src=http%3A%2F%2Fnews.k618.cn%2Fsociety%2F201703%2FW020170325684515461265.png" alt="老铁没毛病"></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>各位土豪大佬觉得好的话可以随意打赏下~</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="http://or3w6eypz.bkt.clouddn.com/blogTheme/NexT/png/wxPay.jpeg" alt="CodeWicky WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="http://or3w6eypz.bkt.clouddn.com/blogTheme/NexT/png/aliPay.jpeg" alt="CodeWicky Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/TableView优化/" rel="tag"># TableView优化</a>
+          
+            <a href="/tags/忽略加载/" rel="tag"># 忽略加载</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/05/02/老司机出品——源码解析之RunLoop详解/" rel="next" title="老司机出品——源码解析之RunLoop详解">
+                <i class="fa fa-chevron-left"></i> 老司机出品——源码解析之RunLoop详解
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/05/21/老司机踩坑系列————中文排序/" rel="prev" title="老司机踩坑系列————中文排序">
+                老司机踩坑系列————中文排序 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="SOHUCS"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="CodeWicky" />
+          <p class="site-author-name" itemprop="name">CodeWicky</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">18</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">26</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/CodeWicky" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.jianshu.com/u/a56ec10f6603" target="_blank" title="简书">
+                  
+                    <i class="fa fa-fw fa-user-circle"></i>
+                  
+                  简书
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="mailto:codewicky@163.com" target="_blank" title="E-Mail">
+                  
+                    <i class="fa fa-fw fa-envelope"></i>
+                  
+                  E-Mail
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#VVeboTableView"><span class="nav-number">1.</span> <span class="nav-text">VVeboTableView</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#圆角"><span class="nav-number">1.1.</span> <span class="nav-text">圆角</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#缓存行高"><span class="nav-number">1.2.</span> <span class="nav-text">缓存行高</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#CoreText绘制文本"><span class="nav-number">1.3.</span> <span class="nav-text">CoreText绘制文本</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#TableView加载数据逻辑优化"><span class="nav-number">1.4.</span> <span class="nav-text">TableView加载数据逻辑优化</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TableView解耦"><span class="nav-number">2.</span> <span class="nav-text">TableView解耦</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CodeWicky</span>
+</div>
+
+
+<div class="theme-info">
+<p>Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a></p>
+</div>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+  
+  <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+  
+    <script type="text/javascript">
+    (function(){
+      var appid = 'cyt3f8T5R';
+      var conf = '5034be04c3b67fdcb8fbc7661b2c48bd';
+      var width = window.innerWidth || document.documentElement.clientWidth;
+      if (width < 960) {
+      window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){
+        window.changyan.api.config({appid:appid,conf:conf})});
+      }
+    })();
+    </script>
+    <script type="text/javascript" src="https://assets.changyan.sohu.com/upload/plugins/plugins.count.js"></script>
+  
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("1IlPuOHFMSDCU3gbiqhOUE7m-gzGzoHsz", "11zBsvOWeJCGzXNguE7305pF");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

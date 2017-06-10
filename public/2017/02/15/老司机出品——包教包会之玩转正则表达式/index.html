@@ -1,0 +1,1243 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="正则表达式," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/Favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="2017年2月16日14时11分更新Level3详解  结束了CoreAnimation系列之后，老司机心里仿佛也轻松了许多。今天说说开发中的一个利器吧，正则表达式。 正则表达式是什么 正则表达式，又称规则表达式。（英语：Regular Expression，在代 码中常简写为regex、regexp或RE），计算机科学的一个概念。正则表通常被用来检索、替换那些符合某个模式(规则)的文本。">
+<meta name="keywords" content="正则表达式">
+<meta property="og:type" content="article">
+<meta property="og:title" content="老司机出品——包教包会之玩转正则表达式">
+<meta property="og:url" content="http://codewicky.coding.me/2017/02/15/老司机出品——包教包会之玩转正则表达式/index.html">
+<meta property="og:site_name" content="R &amp; W">
+<meta property="og:description" content="2017年2月16日14时11分更新Level3详解  结束了CoreAnimation系列之后，老司机心里仿佛也轻松了许多。今天说说开发中的一个利器吧，正则表达式。 正则表达式是什么 正则表达式，又称规则表达式。（英语：Regular Expression，在代 码中常简写为regex、regexp或RE），计算机科学的一个概念。正则表通常被用来检索、替换那些符合某个模式(规则)的文本。">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1835430-eab975ab3f151634.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1835430-f2fc446ab22a9826.gif?imageMogr2/auto-orient/strip">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1835430-d2ba2eb18b01d763.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1835430-7b59460c9d2dccfc.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1835430-8fa4634e2d4738c8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1835430-5737d4049d454ba3.jpeg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1835430-f253237e28f7c6e5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1835430-0b147d01fc08c8d3.jpeg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1835430-22cc41a2b7b6b50d.jpeg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1835430-c34ec5e64aa0c67d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1835430-ac8a766a7c4742c0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1835430-b1e12f10f021e21f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1835430-bc004dc959f7b675.gif?imageMogr2/auto-orient/strip">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1835430-456beaed3f710b02.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1835430-e7706ffe827b1ea1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1835430-1a477250d897b4b1.jpeg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2017-06-04T23:33:44.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="老司机出品——包教包会之玩转正则表达式">
+<meta name="twitter:description" content="2017年2月16日14时11分更新Level3详解  结束了CoreAnimation系列之后，老司机心里仿佛也轻松了许多。今天说说开发中的一个利器吧，正则表达式。 正则表达式是什么 正则表达式，又称规则表达式。（英语：Regular Expression，在代 码中常简写为regex、regexp或RE），计算机科学的一个概念。正则表通常被用来检索、替换那些符合某个模式(规则)的文本。">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/1835430-eab975ab3f151634.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":true},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://codewicky.coding.me/2017/02/15/老司机出品——包教包会之玩转正则表达式/"/>
+
+
+
+
+
+  <title>老司机出品——包教包会之玩转正则表达式 | R & W</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">R & W</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description">愿得今朝图鸿志，不作江郎叹息声。</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-messageboard">
+          <a href="/messageBoard" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            留言板
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://codewicky.coding.me/2017/02/15/老司机出品——包教包会之玩转正则表达式/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="CodeWicky">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="R & W">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">老司机出品——包教包会之玩转正则表达式</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-15T07:33:44+08:00">
+                2017-02-15
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2017-06-05T07:33:44+08:00">
+                2017-06-05
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/正则表达式/" itemprop="url" rel="index">
+                    <span itemprop="name">正则表达式</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-comment-o"></i>
+              </span>
+              
+                  <span class="post-meta-item-text">讨论</span>
+              
+              
+                <a href="/2017/02/15/老司机出品——包教包会之玩转正则表达式/" itemprop="discussionUrl">
+                  <span id="changyan_count_unit" class="post-comments-count hc-comment-count" data-xid="2017/02/15/老司机出品——包教包会之玩转正则表达式/" itemprop="commentsCount"></span>
+                </a>
+              
+            
+          
+
+          
+          
+             <span id="/2017/02/15/老司机出品——包教包会之玩转正则表达式/" class="leancloud_visitors" data-flag-title="老司机出品——包教包会之玩转正则表达式">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="http://upload-images.jianshu.io/upload_images/1835430-eab975ab3f151634.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="玩转正则表达式"></p>
+<blockquote>
+<p><strong>2017年2月16日14时11分更新Level3详解</strong></p>
+</blockquote>
+<p>结束了CoreAnimation系列之后，老司机心里仿佛也轻松了许多。今天说说开发中的一个利器吧，<code>正则表达式</code>。</p>
+<h3 id="正则表达式是什么"><a href="#正则表达式是什么" class="headerlink" title="正则表达式是什么"></a>正则表达式是什么</h3><blockquote>
+<p>正则表达式，又称规则表达式。（英语：Regular Expression，在代 码中常简写为regex、regexp或RE），计算机科学的一个概念。正则表通常被用来检索、替换那些符合某个模式(规则)的文本。</p>
+</blockquote>
+<p>其实借助正则表达式，我们可以对<code>字符串进行很多操作</code>，最大的优势就是从字符串中<code>获取字符串以及判断字符串</code>是否符合条件。</p>
+<p>然而事实上有很多程序员都抱怨，正则表达式的语法晦涩难懂，的确，一个个符号看似毫无规律的拼凑在一起让人看起来确实头疼。</p>
+<p>幸运的是，老司机曾经拿出两个下午来认真的研究了一下正则表达式，所以老司机也是目前我们组唯一一个<code>手撸正则</code>表达式的骚年，so，让老司机沾沾自喜一下可好~</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1835430-f2fc446ab22a9826.gif?imageMogr2/auto-orient/strip" alt="沾沾自喜"></p>
+<p>当然，嘚瑟完还是要来干货的，那老司机用老司机的方式带你看一下正则。</p>
+<a id="more"></a>
+<hr>
+<h3 id="元字符"><a href="#元字符" class="headerlink" title="元字符"></a>元字符</h3><p>让我们先啃一下硬骨头，<code>元字符</code>。</p>
+<p>所谓元字符，就是几个特定的符号组合在一起，其代表的含义已经不是原先符号本身的含义，而更像是一个表达式。</p>
+<p>正则表达式正是因为元字符而变的晦涩，也正是因为元字符而变的简洁。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1835430-d2ba2eb18b01d763.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="元字符1"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1835430-7b59460c9d2dccfc.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="元字符2"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1835430-8fa4634e2d4738c8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="元字符3"></p>
+<p>以上图片截自百度百科<a href="http://baike.baidu.com/link?url=hPmdeeyjNvVV2j63KFbzPtL6Ry0hG3Rt5YNHZhrcID7ghrgZiLYAir9Ozm1aYtrmr6lyOj4RpSnadJcoJUzW_saC-uAmU1ySO7RLzboZs9nQH463j6k0VAiPjtl-eUdOpktwGYvWAWKuL5WWnQIQGK" target="_blank" rel="external">正则表达式</a></p>
+<hr>
+<h4 id="Level1"><a href="#Level1" class="headerlink" title="Level1"></a>Level1</h4><p>元字符之多，多到让人记不住，不过老司机之前说过，元字符不过是<code>带有特定含义的表达式</code>用来让表达式简洁，所以你不用表达式，用最基本的字符完全可以组成表达式，比如下面这种情况：</p>
+<ul>
+<li>[0123456789] 你可以用这个表达式来代表一个数字元素</li>
+<li>[0-9] 你同样可以用这个表达式代表一个数字元素</li>
+<li>\d 你更可以用这个表达式代表一个数字元素</li>
+</ul>
+<p>从上至下，表达式形式越来越简单，不过其书写形式却越来越难懂。<br>所以即使你记不住<code>\d</code>,你也可以用<code>[0123456789]</code>来替代，当你熟练了，自然也就记住<code>\d</code>了对不对。</p>
+<p>所以说，并不是所有元字符你都需要记住的，不过老司机挑了这么几个出来，是能大幅度提高你书写速度的几个元字符：</p>
+<ul>
+<li>[]    对于他，我的命名是元素枚举表达式，表示中括号之间的任意一个元素均可以当做作为一个元素存在。</li>
+<li>{n,m} 这个，我姑且称他为范围表达式。他的含义是表示他前面的元素有x个，x介于[n,m]之间的闭区间（即包含n,m）。</li>
+</ul>
+<blockquote>
+<p>eg.        结合上面两个表达式，我们可以这样写一个表达式：<code>[0123456789]{1,2}</code>，其含义是一个1到2位的纯数字。当然<code>\d{1,2}</code>会让你的表达式看起来更加简洁。</p>
+</blockquote>
+<ul>
+<li>()    括号表达式，他的含义仅仅是将括号间的所有表达式作为一个整体看做新的元素。</li>
+</ul>
+<blockquote>
+<p>eg.        到这里你可以写这样一个表达式：<br><code>([a-z]{1,2}[\d]{1,2}){1,2}</code>，恩，是不是已经乱七八糟了，我们一点一点拆解，<code>[a-z]{1,2}</code>表示<code>1或2个小写字母</code>，<code>[\d]{1,2}</code>表示<code>1或2个数字</code>，两个表达式连一起就是<code>1或2个小写字母后面紧跟1或2个数字</code>（例如<code>ab12</code>），然后[a-z]{1,2}[\d]{1,2}被扩在小括号表达式中，他们已经<code>作为一个整体被视为一个元素</code>，这样的<code>元素又有1或2个</code>，所以符合这个表达式的字符串可能是这个样子的：<code>a12bc1</code></p>
+</blockquote>
+<p>所以说这么一个难看的表达式一点一点拆解我们也是能看懂的是吧</p>
+<ul>
+<li><p>. 点表达式，标识除“\r\n”之外的任何单个字符</p>
+</li>
+<li><p>|        或表达式，表示 | 前后的两个元素中任意一种情况</p>
+</li>
+</ul>
+<p>到了这里，你已经可以写出任意一个表达式了，这些就够了。</p>
+<blockquote>
+<p>比如说既包含字母又包含数字的字符串：</p>
+<p><code>\d{0,}([a-z]{1,}\d{1,}){1,}[a-z]{0,}</code></p>
+<p>这是一个比较丑的表达式，不过他真的能匹配所有情况，你可以慢慢想一下（别太仔细想，虽然可以这么用不过太单纯了，没人这么用的）。</p>
+</blockquote>
+<p>如果说你不介意，到这里，你已经学够了，我似乎看到了你满足的表情。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1835430-5737d4049d454ba3.jpeg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="满足了"></p>
+<hr>
+<h4 id="Level2"><a href="#Level2" class="headerlink" title="Level2"></a>Level2</h4><p>你的手没有因为看到上面那张图而离开鼠标😏，而是继续看到这说明你已经不是随随便便就能春心荡漾的小朋友了，那么现在请你系好安全带，要发车了！</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1835430-f253237e28f7c6e5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="要发车了！"></p>
+<p>所以说单纯一个同时包含数字字母就要这么臭又长的表达式的话，正则表达式也就真没有存在的意义了。这种有先决条件的表达式我们要怎么处理呢？<br>是否能先处理先决条件再进行匹配呢？</p>
+<p>答案当然是肯定的，你要了解<code>预查模式</code>。</p>
+<p>所谓预查模式就是<code>首先检查整个元素</code>是否满足条件，<code>满足后再进行逐一匹配</code>。</p>
+<p>预查有下面几种形式：（下列pattern均代表表达式）</p>
+<ul>
+<li>(?=pattern)        正向肯定预查</li>
+<li>(?!pattern)        正向否定预查</li>
+</ul>
+<p>所谓正向就是固定字符串在前，条件字符串在后。肯定就是包含条件中的字符串，否定就是不包含条件中的字符串。</p>
+<blockquote>
+<p>经典的例子就是windows(?=2000|Vista)，首先固定字符串是windows，即字符串中一定要包含windows。条件字符串是包含2000或者Vista，所以windows2000和windowsVista都可以正确匹配，这是正向肯定预查。举一反三的你相信正向否定，反向肯定，反向否定都能理解了吧知道怎么用了吧。</p>
+</blockquote>
+<p>此处我已经假设你通过自己的感悟已经理解了反向预查，只写式子了（如果没明白在慢慢想会，想累了就回头看看Level1最后的图片😏）。</p>
+<ul>
+<li>(?&lt;=pattern)    反向肯定预查</li>
+<li>(?&lt;!pattern)    反向否定预查</li>
+</ul>
+<p>到这了你应该已经明白预查的含义，但是你跟我说你记不住这稀奇古怪的表达式。没关系，看好了，划重点啊，考试专门考这啊，老司机给你拆开：</p>
+<blockquote>
+<p>“？”代表预查</p>
+<p>“=”代表肯定</p>
+<p>“!”代表否定</p>
+<p>“&lt;”代表反向</p>
+</blockquote>
+<p>好了，你可以准备好仰天长啸了，大喊还有谁！</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1835430-0b147d01fc08c8d3.jpeg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="还有谁！"></p>
+<p>恩，别嘚瑟，还有我！</p>
+<p>事实上，我们用预查方式，更多的用到的是正向预查（反向预查通常有点反人类思维），而且用到他的变体更多：</p>
+<ul>
+<li>(?=[pattern]+$)    告诉我这是什么？“?”看到没有，预查，“=”看到没有？肯定预查，有没有“&lt;”？没有，正向肯定预查！简不简单！！！！！额外解释一下，+等价于{1,}，$代表的是字符串结尾（所以说一些特殊的助记符真的是可以多学学的）。</li>
+</ul>
+<blockquote>
+<p>所以这个条件如果放在一个表达式的最开始就说明：</p>
+<p>1.固定字符串没有，那么条件字符串就是开头了</p>
+<p>2.条件字符串至少一个</p>
+<p>3.条件字符串匹配到字符串结尾，所以条件字符串就是字符串结尾了</p>
+<p>所以说结论是什么？就是字符串从头到尾都由pattern组成，也就是allIs。</p>
+</blockquote>
+<ul>
+<li>(?!.*[pattern].*) 告诉我这是啥？诶对了，正向否定预查！老司机再带你捋一个啊。</li>
+</ul>
+<blockquote>
+<p>1.固定字符串没有，条件字符串开头了</p>
+<p>2.条件字符串由任意任意字符开头，中间是条件字符串，后面又是任意个数任意字符，说明什么，条件就是包含pattern对吧！</p>
+<p>3.这是什么？否定预查，所以是什么？不包含！</p>
+<p>结论？字符串不包含pattern，什么意思？从头到尾都不是pattern，对不对？！！！allNot，诶，英语就是这么溜！</p>
+</blockquote>
+<p>那么老司机就不一一带着你捋了，自己感悟啊！</p>
+<ul>
+<li><p>(?![pattern]+$) 直接给我说答案？是什么？诶，不全是pattern对不对？英语是什么？？notAll！</p>
+</li>
+<li><p>(?=.*[pattern]) 是不是包含？是不是！诶，对了！contain！对不对！！！！就问你对不对！</p>
+</li>
+</ul>
+<p>现在来，给我回到上面的需求，同时包含字母和数字怎么写？</p>
+<p>是不是<code>((?=.*\d)(?=.*[a-zA-Z]))[\da-zA-Z]*</code>?!简单不简单，透彻不透彻！！！<br>这回是不是又觉得自己无敌了！还有谁！！！</p>
+<p><strong>别闹，还有我啊~</strong></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1835430-22cc41a2b7b6b50d.jpeg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="还有我啊~"></p>
+<hr>
+<h4 id="Level3"><a href="#Level3" class="headerlink" title="Level3"></a>Level3</h4><p>还有什么？还有多着呢，那么多助记符、那么多控制符、负值字符范围、边界匹配、获取匹配、贪婪模式等等。。。</p>
+<p>恩，我发现关注的人很多，所以今天来把Level3中内容补充一下。</p>
+<ul>
+<li>^  负字符范围。表示排除此字符集的其他范围。<code>[^\d]</code>即标识除数字外的其他字符合集。</li>
+</ul>
+<p>实际使用中，他是可以配合预查来完成一些任务。<br>比如说要表示除了4的数字合集，你可以有几种表达方式：</p>
+<blockquote>
+<ul>
+<li>[012356789]</li>
+<li>[0-3,5-9]</li>
+<li>(?=\d+$)([^4]*)</li>
+</ul>
+</blockquote>
+<p>前两个不说了，可读性很强，第三个，先是<code>预查并且是allIs模式</code>对吧，就<code>限制了全由数字</code>组成，然后用<code>负字符范围排除了4</code>，这样就是排除了4的数组集合。不过你可能说你用<code>第二种方式可读性高且也符合</code>，不过如果需求编程全部中文排除“我们”这两个字符呢，你要怎么搞。。所以说它是有它的<code>应用范围</code>的。<code>没有最合理的，只有最适合的</code>。</p>
+<ul>
+<li>\b 边界匹配，要求表达式要在字符串的边界。此处边界通常以结尾或者空格进行区分。</li>
+</ul>
+<blockquote>
+<p>eg.比如说要匹配所有以er结尾的字符串，你可以这样<code>[a-z]*(er)\b</code>，他能匹配her，但是verb就不行。<br>同样的<code>\B</code>就是不在边界。</p>
+</blockquote>
+<ul>
+<li>贪婪模式，及尽可能的多去匹配。我们的正则引擎一般是默认贪婪模式的。如果想切换为非贪婪模式则在范围表达式后添加”?”来表示当前为非贪婪模式。</li>
+</ul>
+<blockquote>
+<p>eg.字符串abcdefg，你要获取不重复的所有长度至少为2的子串，你可以这样写<code>[a-z]{2,}</code>,这时你获得的结果将只有一个<code>abcdefg</code>,因为贪婪模式下会尽可能的多匹配，而下限是2上限没有，所以匹配到整串结果。如果你这样写<code>[a-z]{2,}?</code>，那么当前条件被转换为非贪婪模式。你获得的结果是<code>ab</code>、<code>cd</code>、<code>ef</code>三个结果。</p>
+</blockquote>
+<ul>
+<li>获取与非获取，准确的说这不是作为条件出现的。上文中提到的括号表达式，就是否会获取结果。如上述中提到的预查模式，实际上都是非获取模式，就是并不会保存结果，只是提前对整串进行校验。而获取匹配到的结果并供后面的表达式使用。这个还是比较难以理解的，老司机要配合例子或许你才能懂。</li>
+</ul>
+<blockquote>
+<p>eg.需求1. 找出字符串abbbccc中任意连续出现3次的字母。<br>乍一看任意连续出现三次的字母你怎么写？<code>[a-z]{3}</code>这样么？这样子可不行，这可没规定连续。首先我们知道，一个正则表达式是由多个正则表达式组成的。所以你现在想的是不是我获取到一个符合结果的字符串，他的表达式应该由两部分组成，第一部分是匹配我要的第一个字母，第二部分是把第一部分匹配的字母重复两次。<code>([a-z])</code>这样你获取到的第一个字母，然后我要使用第一个表达式的结果重复两次。所以你应该这么写<code>([a-z])\1{2}</code>。老司机解释一下，这个表达式的意思是分成两部分([a-z])获取任意字符并将其保存在临时的地方作为一个后面可用的条件子串。<code>\1</code>代表取出第一个临时子串，<code>{2}</code>就是范围限定符，将前面取出的元素重复两次。所以abbbcbb中，当第一个字母a作为<code>([a-z])</code>所保存的临时子串时，<code>\1</code>就代表a，然而并没有连续的三个a，所以不符合。当b作为临时子串时，<code>\1</code>代表b，后面有两个连续的b，符合结果。</p>
+<p>再来一个深入理解一下。如果我想取出abbbccc中的bccc怎么办呢？我们的表达式应该由3部分组成，第一部分匹配一个字母,第二部分匹配一个字母，第三部分是第二部分重复两次。<code>([a-z])([a-z])\2{2}</code>么？不对，为什么？这样你将获取到abbb。因为a配[a-z]，然后b匹配第二个[a-z]，然后取出第二个结果b重复两次，那就是abbb。然后将从c开始继续检查后面的字符串。不过至少我们思路对了，只要我们不然abbb符合结果即可，简单修改<code>([^a])([a-z])\2{2}</code>。这时a就不能作为第一个字母出现了，所以就轮到bccc了是吧。</p>
+<p>最后一个例子不分拆讲解，想获取abbbcbb中的bcbb怎么办？看看是不是这个表达式：<code>([a-z])([a-z])\1{2}</code>。对的，不解释。</p>
+</blockquote>
+<p>其余就是助记符了，虽然多，但都是等价替换，老司机不细讲，看看最开始的表吧。</p>
+<p>助记符不算，另一种表达方式，控制符也就是几个特殊符号，负值、边界用起来也很简单，获取匹配、贪婪模式，多看看也能消化。而且这些Level3的东西都是锦上添花的东西，不必须掌握。</p>
+<blockquote>
+<p>所以大声告诉我，正则会没会！！！</p>
+<p>会！</p>
+<p>简不简单！！！</p>
+<p>简单！</p>
+<p>老司机屌不屌！！！</p>
+<p>屌！真屌！太屌了！非常之屌！24K纯屌！</p>
+</blockquote>
+<hr>
+<p>然后放一些老司机搜集并验证过的常用正则吧：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">类别</th>
+<th style="text-align:center">表格</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">数字</td>
+<td style="text-align:center">\d+</td>
+</tr>
+<tr>
+<td style="text-align:center">字母</td>
+<td style="text-align:center">[a-zA-Z]+</td>
+</tr>
+<tr>
+<td style="text-align:center">中文</td>
+<td style="text-align:center">[\u4E00-\u9FA5]+</td>
+</tr>
+<tr>
+<td style="text-align:center">所有符号</td>
+<td style="text-align:center">[\W_]+</td>
+</tr>
+<tr>
+<td style="text-align:center">Email</td>
+<td style="text-align:center">^[A-Za-z\d]+([-_.][A-Za-z\d]+)<em>@([A-Za-z\d]+[-.])</em>([A-Za-z\d]+[.])+[A-Za-z\d]{2,5}$</td>
+</tr>
+<tr>
+<td style="text-align:center">手机号码</td>
+<td style="text-align:center">1[34578]\d{9}</td>
+</tr>
+<tr>
+<td style="text-align:center">座机电话</td>
+<td style="text-align:center">(0[\d]{2,3}-)?([2-9][\d]{6,7})(-[\d]{1,4})?</td>
+</tr>
+<tr>
+<td style="text-align:center">自然数</td>
+<td style="text-align:center">\d+(\.\d+)?</td>
+</tr>
+</tbody>
+</table>
+<p>URL这个放在表格里面格式就不对了，我就放外面了：<br>URL = ((http|ftp|https)://)?((([a-zA-Z0-9]+[a-zA-Z0-9<em>-]*\.)+[a-zA-Z]{2,6})|(([0-9]{1,3}\.){3}[0-9]{1,3}(:[0-9]{1,4})?))((/[a-zA-Z\d</em>]+)*(\?([a-zA-Z\d<em>]+=[a-zA-Z\d\u4E00-\u9FA5\s\+%#\</em>-]+&amp;)*([a-zA-Z\d_]+=[a-zA-Z\d\u4E00-\u9FA5\s\+%#_-]+))?)?</p>
+<hr>
+<p>冲着老司机情人节不开房开博客的情怀，是不是应该有一大波赞！！！一大波关注！！！！一大波star！！！！！</p>
+<hr>
+<p>不过熟悉老司机的童靴是知道老司机的套路的，老司机讲课要什么？</p>
+<p>要赞！要关注！！要star！！！</p>
+<p>这期带来的小工具：</p>
+<p><a href="https://github.com/CodeWicky/-Tools/tree/master/DWRegExpUtils" target="_blank" rel="external">DWRegexUtils</a></p>
+<p>正则工具类，这也是老司机的心血结晶啊，提供自然人思维的链式语法优雅的返回正则表达式。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1835430-c34ec5e64aa0c67d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="虽然这点难以解释"></p>
+<p>预置常用正则表达式。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1835430-ac8a766a7c4742c0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="预置校验1"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1835430-b1e12f10f021e21f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="预置校验2"></p>
+<p>提供正则判断的工具类！</p>
+<p>如果觉得好用可以给整个仓库一个star哟！整个仓库里面全都是工具类哟！上哪里去找这么好的仓库！！！<a href="https://github.com/CodeWicky/-Tools" target="_blank" rel="external">仓库传送门</a></p>
+<hr>
+<p>有童鞋说这个工具类不会使用，恩，我理解！因为提供的自由度较广所以传参比较多，所以老司机昨天发博客的时候自己想捋捋怎么用也回忆了一小下，那我就简单说一下吧。</p>
+<p>首先，需明确的概念是，在这个工具类中，老司机是想以一种<code>组件</code>的形式去生成正则表达式。组件对应的就是<code>正则表达式中元素</code>的概念。<br>从头文件中可以看到，老司机使用一个枚举（严格点这是按位掩码）定义了组件类型DWRegexComponent。使用的时候你可以<br><code>DWRegexComponentNumber |DWRegexComponentUppercaseLetter</code>这样来表示数字和大写字母同时作为组件元素。</p>
+<p>第二个概念是<code>条件</code>。其实上面的教程里你应该发现了正则就是用<code>一个个小的表达式组成一个大的表达式</code>。而老司机这里就是一<code>添加条件的方式来添加表达式</code>。我用了另一个枚举类型DWRegexCondition定义了6种条件方式。其中4种是预查，allIs，allNot，notAll，contain，这些都是预查条件，所有都有PreSearch前缀。还有两种子式条件contain和without，即包含与非包含。</p>
+<p>恩，两个枚举完事了，搞定剩下三个api，你就能用它写出正则了。</p>
+<p>说说为什么会是链式语句呢？因为<code>链式语句从形式上更能代表人的顺向思维</code>，所谓想到哪写到哪，所以采用了链式语句生成正则，用过masonry的童鞋一定可以很快上手。</p>
+<p>首先调用<code>+dw_GetRegexStringWithMaker:</code>方法来以block形式生成正则语句。</p>
+<p>一下三个api都可以通过maker的点语法点出来，类比masonry就好了。</p>
+<blockquote>
+<p>AddConditionWithComponentType()</p>
+</blockquote>
+<p>这个方法你要传6个参数，有点多呵呵🙃。<br>分别是<code>组件、额外字符串、条件、最小匹配数、最大匹配数及是否为贪婪模式</code>。<br>有了枚举的介绍其实你应该仅不知道额外字符串是什么鬼。<br>首先<code>以组件来做成基本元素</code>，然而老司机预置的组件中可能<code>不能代表全部你要的元素</code>，所以可以<code>通过额外字符串来对组件进行补充</code>。然后<code>以组件和额外字符串作为元素</code>，<code>配合条件即范围生成一条正则表达式</code>。<br>上图例子中的，详情请见上面图的第一个表达式。</p>
+<blockquote>
+<p>AddConditionWithComponentRegexString()</p>
+</blockquote>
+<p>举一反三的想一下，套路是一样的。你需要5个参数，<code>子串、条件、两端范围及贪婪模式</code>。<br>应用场景就是你不想用组件模式生成元素，而是想<code>手撸一个元素集合</code>时，子串即传入你的元素集合，在<code>添加条件、范围即可</code>，例子见第二个表达式。</p>
+<blockquote>
+<p>AddConditionWithCompleteRegexString()</p>
+</blockquote>
+<p>仅需要传入两个参数，即你连范围都能自己撸，你就写一个<code>完整的正则表达式作为元素</code>，<code>添加条件组成一个更加丰富的正则表达式</code>。</p>
+<p>所以说<code>借助这三个api加以你灵活的使用</code>你就能生成所有你想要的表达式，只要你能够把大需求拆分成一个个小条件。<code>事实上第一个api自由度最高，你熟练使用这个就行</code>。</p>
+<p>最后，这三个api中如果你的<code>条件模式为预查</code>，则<code>无论你在什么位置</code>添加条件，最后都会<code>自动的拼接在正则表达式的前方</code>。而<code>子式条件添加的顺序即为子式的顺序</code>。</p>
+<p>恩，有了讲解配合上面的例子，这个工具类应该就可以使用了。不是吹捧自己的东西，只要<code>熟练使用第一个api</code>你真的能写出所有正则，你需要的只是学习一个api的成本。另外，<code>用多了或许你就能很好的拆分了，然后自己也就能写了</code>。</p>
+<hr>
+<p>另外，DWCoreTextLabel已经全面支持自动链接匹配了，包括数字、email、url链接、手机号等。欢迎star！！！跪求star！！！这是老司机主力推的库😢。</p>
+<h3 id="软广"><a href="#软广" class="headerlink" title="软广"></a>软广</h3><p>DWCoreTextLabel更新到现在已经1.1.6版本了，现在除了图文混排功能，还支持文本类型的自动检测，异步绘制减少系统的卡顿，异步加载并缓存图片的功能。</p>
+<blockquote>
+<p>version 1.1.0<br>全面支持自动链接支持、定制检测规则、图文混排、响应事件<br>优化大部分算法，提高响应效率及绘制效率</p>
+<p>version 1.1.1<br>高亮取消逻辑优化<br>自动检测逻辑优化<br>部分常用方法改为内联函数，提高运行效率</p>
+<p>version 1.1.2<br>绘制逻辑优化，改为异步绘制（源码修改自YYTextAsyncLayer）</p>
+<p>version 1.1.3<br>异步绘制改造完成、去除事务管理类，事务管理类仍可改进，进行中</p>
+<p>version 1.1.4<br>事务管理类去除，异步绘制文件抽出</p>
+<p>version 1.1.5<br>添加网络图片异步加载库，支持绘制网络图片</p>
+</blockquote>
+<p><img src="http://upload-images.jianshu.io/upload_images/1835430-bc004dc959f7b675.gif?imageMogr2/auto-orient/strip" alt="DWCoreTextLabel"></p>
+<p>插入图片、绘制图片、添加事件统统一句话实现~</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1835430-456beaed3f710b02.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="一句话实现"></p>
+<p>尽可能保持系统Label属性让你可以无缝过渡使用~</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1835430-e7706ffe827b1ea1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="无缝过渡"></p>
+<p>恩，说了这么多，老司机放一下地址：<a href="https://github.com/CodeWicky/DWCoreTextLabel" target="_blank" rel="external">DWCoreTextLabel</a>，宝宝们给个star吧~爱你哟~</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1835430-1a477250d897b4b1.jpeg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="爱你哟"></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>各位土豪大佬觉得好的话可以随意打赏下~</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="http://or3w6eypz.bkt.clouddn.com/blogTheme/NexT/png/wxPay.jpeg" alt="CodeWicky WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="http://or3w6eypz.bkt.clouddn.com/blogTheme/NexT/png/aliPay.jpeg" alt="CodeWicky Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/正则表达式/" rel="tag"># 正则表达式</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/02/12/老司机带你走进Core-Animation-之粒子发射、TileLayer与异步绘制/" rel="next" title="老司机带你走进Core Animation 之粒子发射、TileLayer与异步绘制">
+                <i class="fa fa-chevron-left"></i> 老司机带你走进Core Animation 之粒子发射、TileLayer与异步绘制
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/03/07/老司机出品———疯狂造轮子之图片异步下载类/" rel="prev" title="老司机出品———疯狂造轮子之图片异步下载类">
+                老司机出品———疯狂造轮子之图片异步下载类 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="SOHUCS"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="CodeWicky" />
+          <p class="site-author-name" itemprop="name">CodeWicky</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">18</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">26</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/CodeWicky" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.jianshu.com/u/a56ec10f6603" target="_blank" title="简书">
+                  
+                    <i class="fa fa-fw fa-user-circle"></i>
+                  
+                  简书
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="mailto:codewicky@163.com" target="_blank" title="E-Mail">
+                  
+                    <i class="fa fa-fw fa-envelope"></i>
+                  
+                  E-Mail
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#正则表达式是什么"><span class="nav-number">1.</span> <span class="nav-text">正则表达式是什么</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#元字符"><span class="nav-number">2.</span> <span class="nav-text">元字符</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Level1"><span class="nav-number">2.1.</span> <span class="nav-text">Level1</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Level2"><span class="nav-number">2.2.</span> <span class="nav-text">Level2</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Level3"><span class="nav-number">2.3.</span> <span class="nav-text">Level3</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#软广"><span class="nav-number">3.</span> <span class="nav-text">软广</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CodeWicky</span>
+</div>
+
+
+<div class="theme-info">
+<p>Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a></p>
+</div>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+  
+  <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+  
+    <script type="text/javascript">
+    (function(){
+      var appid = 'cyt3f8T5R';
+      var conf = '5034be04c3b67fdcb8fbc7661b2c48bd';
+      var width = window.innerWidth || document.documentElement.clientWidth;
+      if (width < 960) {
+      window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){
+        window.changyan.api.config({appid:appid,conf:conf})});
+      }
+    })();
+    </script>
+    <script type="text/javascript" src="https://assets.changyan.sohu.com/upload/plugins/plugins.count.js"></script>
+  
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("1IlPuOHFMSDCU3gbiqhOUE7m-gzGzoHsz", "11zBsvOWeJCGzXNguE7305pF");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

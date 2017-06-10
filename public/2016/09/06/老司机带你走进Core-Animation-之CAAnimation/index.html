@@ -1,0 +1,1348 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="CAAnimation,核心动画," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/Favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="系列文章：  老司机带你走进Core Animation 之CAAnimation 老司机带你走进Core Animation 之CADisplayLink 老司机带你走进Core Animation 之几种动画的简单应用 老司机带你走进Core Animation 之CAShapeLayer和CATextLayer 老司机带你走进Core Animation 之图层的透视、渐变及复制 老司机带">
+<meta name="keywords" content="CAAnimation,核心动画">
+<meta property="og:type" content="article">
+<meta property="og:title" content="老司机带你走进Core Animation 之CAAnimation">
+<meta property="og:url" content="http://codewicky.coding.me/2016/09/06/老司机带你走进Core-Animation-之CAAnimation/index.html">
+<meta property="og:site_name" content="R &amp; W">
+<meta property="og:description" content="系列文章：  老司机带你走进Core Animation 之CAAnimation 老司机带你走进Core Animation 之CADisplayLink 老司机带你走进Core Animation 之几种动画的简单应用 老司机带你走进Core Animation 之CAShapeLayer和CATextLayer 老司机带你走进Core Animation 之图层的透视、渐变及复制 老司机带">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1835430-77eacb0858d3a263.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1835430-07cc02042b300306.gif?imageMogr2/auto-orient/strip">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1835430-b882c8aef33998c0.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1835430-d7eec1186a9a4349.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1835430-62f9e4502e71bbfd.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1835430-bc4299e260ddf310.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1835430-d73090e071359ba4.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1835430-7312aedda0c07f65.gif?imageMogr2/auto-orient/strip">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1835430-24721d8aad9561dc.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1835430-bab04c38cdbb7b08.gif?imageMogr2/auto-orient/strip">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1835430-a86ec17b9a2c3a31.gif?imageMogr2/auto-orient/strip">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1835430-bf5c0269b3108fe8.gif?imageMogr2/auto-orient/strip">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1835430-0b3020d9906c97d5.gif?imageMogr2/auto-orient/strip">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1835430-d64671e9c70a19f9.gif?imageMogr2/auto-orient/strip">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1835430-1fbc0c1de0032f9e.gif?imageMogr2/auto-orient/strip">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1835430-6511471e8429dfda.gif?imageMogr2/auto-orient/strip">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1835430-88b254bdbaa34902.gif?imageMogr2/auto-orient/strip">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1835430-f7569b4c0c423c81.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1835430-34c04cf9d77613f7.gif?imageMogr2/auto-orient/strip">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1835430-e7d2fc246edd25c7.gif?imageMogr2/auto-orient/strip">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1835430-04a7fd69f578b586.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1835430-6d94ce1bd36d5f61.gif?imageMogr2/auto-orient/strip">
+<meta property="og:updated_time" content="2017-06-04T23:33:44.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="老司机带你走进Core Animation 之CAAnimation">
+<meta name="twitter:description" content="系列文章：  老司机带你走进Core Animation 之CAAnimation 老司机带你走进Core Animation 之CADisplayLink 老司机带你走进Core Animation 之几种动画的简单应用 老司机带你走进Core Animation 之CAShapeLayer和CATextLayer 老司机带你走进Core Animation 之图层的透视、渐变及复制 老司机带">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/1835430-77eacb0858d3a263.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":true},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://codewicky.coding.me/2016/09/06/老司机带你走进Core-Animation-之CAAnimation/"/>
+
+
+
+
+
+  <title>老司机带你走进Core Animation 之CAAnimation | R & W</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">R & W</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description">愿得今朝图鸿志，不作江郎叹息声。</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-messageboard">
+          <a href="/messageBoard" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            留言板
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://codewicky.coding.me/2016/09/06/老司机带你走进Core-Animation-之CAAnimation/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="CodeWicky">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="R & W">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">老司机带你走进Core Animation 之CAAnimation</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-09-06T07:33:44+08:00">
+                2016-09-06
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2017-06-05T07:33:44+08:00">
+                2017-06-05
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/核心动画/" itemprop="url" rel="index">
+                    <span itemprop="name">核心动画</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-comment-o"></i>
+              </span>
+              
+                  <span class="post-meta-item-text">讨论</span>
+              
+              
+                <a href="/2016/09/06/老司机带你走进Core-Animation-之CAAnimation/" itemprop="discussionUrl">
+                  <span id="changyan_count_unit" class="post-comments-count hc-comment-count" data-xid="2016/09/06/老司机带你走进Core-Animation-之CAAnimation/" itemprop="commentsCount"></span>
+                </a>
+              
+            
+          
+
+          
+          
+             <span id="/2016/09/06/老司机带你走进Core-Animation-之CAAnimation/" class="leancloud_visitors" data-flag-title="老司机带你走进Core Animation 之CAAnimation">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="http://upload-images.jianshu.io/upload_images/1835430-77eacb0858d3a263.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="老司机带你走进Core Animation 之CAAnimation"></p>
+<p>系列文章：</p>
+<ul>
+<li><a href="http://www.jianshu.com/p/92a0661a21c6" target="_blank" rel="external">老司机带你走进Core Animation 之CAAnimation</a></li>
+<li><a href="http://www.jianshu.com/p/434ec6911148" target="_blank" rel="external">老司机带你走进Core Animation 之CADisplayLink</a></li>
+<li><a href="http://www.jianshu.com/p/8e14616679ea" target="_blank" rel="external">老司机带你走进Core Animation 之几种动画的简单应用</a></li>
+<li><a href="http://www.jianshu.com/p/3115050b7298" target="_blank" rel="external">老司机带你走进Core Animation 之CAShapeLayer和CATextLayer</a></li>
+<li><a href="http://www.jianshu.com/p/dedc44fe8e35" target="_blank" rel="external">老司机带你走进Core Animation 之图层的透视、渐变及复制</a></li>
+<li><a href="http://www.jianshu.com/p/29cbc1744153" target="_blank" rel="external">老司机带你走进Core Animation 之粒子发射、TileLayer与异步绘制</a></li>
+</ul>
+<hr>
+<p>为什么时隔这么久我又回来了呢？</p>
+<p>###回来圈粉。<br>开玩笑的，前段时间ipv6被拒啊，超级悲剧的，前后弄了好久，然后需求啊什么的又超多，所以写好的东西也没有时间整理。不过既然我现在回来了，那么这将是一个井喷的时节。（感觉给自己立下了什么死亡flag，啧啧啧）</p>
+<p>先说什么呢？说一下CAAnimation相关的吧，因为最近也刚好在研究这些东西。不过看到末尾之前，请你相信我今天讲CAAnimation绝对是有阴谋的。</p>
+<hr>
+<p>#老司机带你走进Core Animation</p>
+<p>事实上，老司机今天讲的只是核心动画（Core Animation）中的一小部分，<code>动画那部分</code>=。=</p>
+<p>开发中，有的时候我们可爱的UI妹子或者产品妹子会说（表示一下纯属个人YY）：技术哥哥，这里能不能duang的一下弹出来呢？这里能不能转个圈出现啊？这里能不能加一些炫酷的效果啊？</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1835430-07cc02042b300306.gif?imageMogr2/auto-orient/strip" alt="Duang"></p>
+<p>作为<code>高冷而又无所不能</code>的技术，能说不么？</p>
+<p>###不能！<br>然后你就硬着头皮去写动画吧。</p>
+<p>好在呢，苹果已经想到<strong><code>程序员也是要撩妹</code></strong>的这个需求，所以为我们提供了CAAnimation这个好东西，当然还贴心的帮我们又进行了一层<code>封装</code>，那就是<code>UIView得animate相关</code>的方法了。</p>
+<p>然而封装好的东西，灵活度当然会降低了。所以既然是基于<code>CAAnimation</code>的，那我们就去自己调用好了！</p>
+<p>所以呢，今天我打算说说CAAnimaiton。</p>
+<p>这篇博客中可能会涉及到什么呢？</p>
+<ul>
+<li>CALayer与UIView</li>
+<li>CAAnimation与UIView animate</li>
+</ul>
+<a id="more"></a>
+<hr>
+<h2 id="CALayer"><a href="#CALayer" class="headerlink" title="CALayer"></a>CALayer</h2><p>为什么会先说CALayer呢？以为<code>CAAimation实际上操作的都是Layer层</code>。</p>
+<p>所以不知道CALayer会很头疼的，知道的偷学去冲杯咖啡吧。</p>
+<blockquote>
+<p>The CALayer class manages image-based content and allows you to perform animations on that content. Layers are often used to provide the backing store for views but can also be used without a view to display content. A layer’s main job is to manage the visual content that you provide but the layer itself has visual attributes that can be set, such as a background color, border, and shadow. In addition to managing visual content, the layer also maintains information about the geometry of its content (such as its position, size, and transform) that is used to present that content onscreen. Modifying the properties of the layer is how you initiate animations on the layer’s content or geometry. A layer object encapsulates the duration and pacing of a layer and its animations by adopting the CAMediaTiming protocol, which defines the layer’s timing information.</p>
+<p>If the layer object was created by a view, the view typically assigns itself as the layer’s delegate automatically, and you should not change that relationship. For layers you create yourself, you can assign a delegate object and use that object to provide the contents of the layer dynamically and perform other tasks. A layer may also have a layout manager object (assigned to the layoutManager property) to manage the layout of subviews separately.</p>
+</blockquote>
+<p>这是官方文档对CALayer的解释，以老司机的英语水平翻译成人话就是：</p>
+<p>CALayer是用来<code>绘制、渲染</code>图形的。</p>
+<h3 id="那他与UIView又有什么区别和联系呢？"><a href="#那他与UIView又有什么区别和联系呢？" class="headerlink" title="那他与UIView又有什么区别和联系呢？"></a>那他与UIView又有什么区别和联系呢？</h3><p>事实上所有的UIView及其子类图形的绘制。UIView下有一个layer属性，这个layer层就是真正绘制UIView所要展示的东西的人。然而之所以要将CALayer封装成UIView则是为了给其<code>添加事件响应</code>。</p>
+<p>因为<code>CALayer</code>是继承与NSObject的，所以他是<code>不具备响应</code>的。而<code>UIView是继承与UIResponder</code>的，UIResponder本身<code>可以提供事件响应</code>，再用CALayer给他绘制一个图像，那一个具有响应事件的对象就诞生了，他就是我们的UIView。</p>
+<p>当我们创建一个UIView对象时，系统自动为我们创建一个CALayer对象,这个对象就是UIView的layer属性。</p>
+<h3 id="CALayer有具体有什么属性呢？"><a href="#CALayer有具体有什么属性呢？" class="headerlink" title="CALayer有具体有什么属性呢？"></a>CALayer有具体有什么属性呢？</h3><p>前面有说过，layer层负责绘制和渲染，那么图像的基本属性他是一定要有的。</p>
+<p>这里呢，老司机还是着重介绍一个常用和重要的属性吧。</p>
+<p>CALayer有<code>bounds，position，frame</code>的属性，他呢，其实就是UIView中bounds，center，frame的映射。事实上，我们在layer中一般只操作bounds和position两个属性。由于有着对应关系，所以这个理解起来就相对容易，我就不展开讲解了。</p>
+<p>CALayer还有一个非常重要的属性<code>anchorPoint</code>，即锚点。说起来这个概念还是真难解释，锚点就好像是体心，一个物体抽象成一个点的对象。还记得物理中的质点么？我们操作属性，比如移动，旋转，缩放等等都是以锚点作为<code>参考点</code>的。他是一个<code>CGPoint类型</code>的对象，他的<code>x、y取值范围都是0~1</code>。数值就是从锚点到layer的左上角（类比UIView的origin）的 横向/纵向 距离占layer得 width/height 的<code>比例</code>。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1835430-b882c8aef33998c0.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="锚点"></p>
+<p><code>contents</code>，寄宿图。事实上这个属性我们操作的也很少，不过还是可以解释一下的。他可以看做是<code>当前图层的背景图片</code>。就是在当前图层的背景展示一张图片。也就是说你甚至可以用一个UIView展示一张图片了，就是这样。不过你别看他的类型是id，可不代表你给他传什么对象都可以。事实上你只能传<code>CGImageRef</code>类型的数据进去。他的id类型是为了配合OS X系统的。哦，你说为什么不能传UIIamge？是这样的，<code>CALayer是在QuartzCore框架下</code>的，他是可以跨平台的，也就是在iOS和OS X上都可以，所以他当然不能让你传入UIKit下的对象了。<code>CALayer的所有属性都不能传入UIKit的对象</code>。</p>
+<p><code>transform</code>，仿射变换啦，这个东西其实挺多能讲的，那套图像变换的原理挺有意思的，不过我矩阵真的不会算了=。=延展的东西数学好的同学们自己看吧，其实想用还是挺简单的。</p>
+<p><code>cornerRadius、masksToBounds</code>。这两个属性比较常用啦，切圆角时候我们用的属性。</p>
+<p><code>opacity</code>，类比UIView的alpha。</p>
+<p><code>shadowOpacity、shadowColor、shadowPath、shadowOffset、shadowRadius</code>，这几个阴影相关的属性。这里需要注意的是<code>shadowOpacity的默认值现在是0</code>。也就是说默认效果下你是看不到任何阴影效果的，想要实现阴影想过请先<code>更改shadowOpacity为一个非0得小于等于1的值</code>。还有一点就是由于shadow是图层外的延展效果，要想看到shadow效果请<code>设置masksToBounds属性为No</code>。</p>
+<p><code>borderColor、borderWidth</code>，这是边框相关的属性。borderWidth默认值是0。</p>
+<p><code>mask</code>，这也是个有趣又有用的属性，<code>遮罩属性</code>。可以以一个layerA作为另一个layerB的遮罩，即layerB.mask = layerA。那么作为遮罩的layerA中的透明区域将被过滤掉，<code>layerB只显示layerA的非透明区域</code>。借助这个属性可以实现很多神奇的效果，比如歌词、图像展开等等。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1835430-d7eec1186a9a4349.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="mask"></p>
+<p>CALayer还有一个其他的属性，不过平时使用的也不多，老司机就不逐一介绍了，有兴趣的同学可以自行了解哈。</p>
+<p>基于CALayer的种种属性，以及CALayer还有很多子类，有了他们，我们能看到各种各样的UI控件，那我们又如何创建动画呢？</p>
+<hr>
+<h2 id="CAAnimation"><a href="#CAAnimation" class="headerlink" title="CAAnimation"></a>CAAnimation</h2><h3 id="CAAnimation是什么呢？"><a href="#CAAnimation是什么呢？" class="headerlink" title="CAAnimation是什么呢？"></a>CAAnimation是什么呢？</h3><blockquote>
+<p>CAAnimation is an abstract animation class. It provides the basic support for the CAMediaTiming and CAAction protocols. To animate Core Animation layers or Scene Kit objects, create instances of the concrete subclasses CABasicAnimation, CAKeyframeAnimation, CAAnimationGroup, or CATransition.</p>
+</blockquote>
+<p>官方对CAAnimation的描述也并不多，其实不过说的的确都很到位。<br>CAAniamtion是一个<code>抽象类</code>，遵循着CAMediaTiming和CAAciotn两个协议。通过他的<code>4个子类</code>，我们可以<code>实现很多绚丽的动画效果</code>。</p>
+<hr>
+<p>CAAnimation下有几个属性，下面逐一介绍</p>
+<p><code>timingFunction</code>，这个呢，指定的是动画的节奏。所谓节奏是什么什么意思呢？就是动画执行的快慢交替。有如下几个可选项</p>
+<ul>
+<li>kCAMediaTimingFunctionLinear//线性节奏，就是匀速</li>
+<li>kCAMediaTimingFunctionEaseIn//淡入，缓慢加速进入，然后匀速</li>
+<li>kCAMediaTimingFunctionEaseOut//淡出，匀速，然后缓慢减速移除</li>
+<li>kCAMediaTimingFunctionEaseInEaseOut//淡入淡出，结合以上两者</li>
+<li>kCAMediaTimingFunctionDefault//默认效果</li>
+</ul>
+<p><code>delegate</code>，代理。设置代理以后就会执行代理方法啦。</p>
+<ul>
+<li><p>-(void)animationDidStart:(CAAnimation *)anim;</p>
+</li>
+<li><p>-(void)animationDidStop:(CAAnimation *)anim finished:(BOOL)flag;</p>
+</li>
+</ul>
+<p>一个是动画开始的代理，一个是动画结束的代理。</p>
+<p>值得注意的是，结束代理中，有一个flag。他的意思是如果动画正常播放完成的话，flag为YES。如果没有播放完成或者被移除则返回NO。</p>
+<p><code>removedOnCompletion</code>，是否在播放完成后移除。这是一个非常重要的属性，有的时候我们希望动画播放完成，但是保留最终的播放效果是，这个属性一定要改为NO，否则无效。</p>
+<hr>
+<p>遵循着CAMediaTiming协议，所以他自然也有duration、beginTime等一些属性。</p>
+<p><code>beginTime</code>,动画的开始时间，准确的说应该叫滞后时间。就是当你将动画加载layer中后滞后多长时间开始播放。</p>
+<blockquote>
+<p>/* The begin time of the object, in relation to its parent object, if</p>
+<ul>
+<li>applicable. Defaults to 0. */</li>
+</ul>
+</blockquote>
+<p>这个属性很重要，我想要着重讲一下。上面是beginTime属性的注释。从中我们能够看出，这个<code>beginTime是与父对象有关</code>的。</p>
+<p>由于CALayer和CAAnimation都遵循CAMediaTiming协议，所以那他都可以作为我们animation对象的父对象。</p>
+<p>如果你将animation添加在一个动画组（CAAnimationGroup）中，那么ok，你直接按照下面的写法就好了。</p>
+<pre><code>animation.beginTime = beginTime;
+</code></pre><p>但是，如果你直接添加在一个layer上，他的父对象是layer。这个layer的时间线很可能是一个过去的时间。即使你添加上beginTime得到的仍旧是一个过去的时间。那么这个时候我们的动画就会显示在动画结束时的状态。为了避免这种状况，我们要修正我们的时间。代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">CFTimeInterval time = [layer convertTime:CACurrentMediaTime() fromLayer:nil];</div><div class="line">animation.beginTime = time + beginTime;</div></pre></td></tr></table></figure>
+<p>CACurrentMediaTime()是马赫时间，是全局时间，也就是设备距离上次开机的时间。</p>
+<p>convertTime是获取本地时间。该方法有两个参数，第一个是时间，第二个是时间所对应的图层。当第二个参数为nil时，则返回的就是第一个参数的值。</p>
+<p>这样我们就能得到一个绝对时间。</p>
+<p>这里很重要，不过引申下去就远了，想了解的同学点<a href="http://blog.csdn.net/yaozhuoyu/article/details/9566511" target="_blank" rel="external">这里</a>。</p>
+<p><code>duration</code>，是动画的持续时间。简单的概念我就一笔带过了吧，同样的还有<code>repeatCount，autoreverses</code>。这些都是一些基本属性，基本看单词就知道用途了。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1835430-62f9e4502e71bbfd.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="duration"></p>
+<p><code>speed</code>，这个我也要说一下，他表示的是<code>当前对象的时间流速</code>。简单来说，如果speed是2，duration是3，那么经过1.5秒，我的动画已经播放完成了。s = v * t，s就相当于已经播放的动画，也就是长度为3个单位的动画，v相当于每秒播放多少动画，即每秒播放两个单位的动画，所以1.5秒后动画其实就播放完成了。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1835430-bc4299e260ddf310.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="speed"></p>
+<p><code>timeOffset</code>,是表示我将从动画的<code>第几秒开始播放</code>。比如一个duration = 3的动画，timeOffset = 2，那么此时我的动画从第二秒开始播放，播放到第三秒动画结束的状态后，立即变为动画的初始状态，也就是第0秒的播放状态，继续播放之第二秒的状态，然后动画结束。形象的说就好像你绕操场跑圈，以前你都是<code>从起点开始跑跑一圈</code>；这回你<code>从一半开始跑</code>，但是<code>同样跑一圈</code>，过了起点就还要再跑半圈，就是这样。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1835430-d73090e071359ba4.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="timeOffset"></p>
+<p>fillMode，是播放结束后的状态。他有四个枚举值</p>
+<ul>
+<li>kCAFillModeForwards//保持结束时状态</li>
+<li>kCAFillModeBackwards//保持开始时状态</li>
+<li>kCAFillModeBoth//保持两者，我没懂两者是什么概念，实际使用中<code>与kCAFillModeBackwards相同</code></li>
+<li>kCAFillModeRemoved//移除</li>
+</ul>
+<p>哦，这个属性使用的时候要设置<code>removedOnCompletion = NO</code>，否则你是看不到效果的。其实除了保持结束状态有效果，其他跟没效果也没什么区别。。可能也是我没看出来。。</p>
+<hr>
+<p>其实说实话，我也不想讲这么些属性，不过这些铺垫也不好讲。</p>
+<p>下面又到了我们最喜欢的淘宝推荐环节。不对，是代码环节。</p>
+<h2 id="CABasicAnimation"><a href="#CABasicAnimation" class="headerlink" title="CABasicAnimation"></a>CABasicAnimation</h2><p>前文说过，CAAnimation是一个抽象类，想要实现动画效果呢，是要使用其四个子类的。</p>
+<p>首先我们就介绍一下CABasicAnimation。</p>
+<p>看名字就知道，这是一个多么基础的动画啊=。=</p>
+<p>CABasicAnimation用来<code>创建基于两个状态的动画</code>，你只需要给出两个状态，一个初始状态一个终止状态，系统自动为你将中间的动画补全。</p>
+<pre><code>UIView * redView = [[UIView alloc] initWithFrame:CGRectMake(100, 100, 100, 100)];
+redView.backgroundColor = [UIColor redColor];
+[self.view addSubview:redView];
+CABasicAnimation * animaiton = [CABasicAnimation animationWithKeyPath:@&quot;position&quot;];
+animaiton.removedOnCompletion = NO;
+animaiton.fillMode = kCAFillModeForwards;
+animaiton.duration = 2;
+animaiton.toValue = [NSValue valueWithCGPoint:CGPointMake(400, 400)];
+[redView.layer addAnimation:animaiton forKey:nil];
+</code></pre><p><img src="http://upload-images.jianshu.io/upload_images/1835430-7312aedda0c07f65.gif?imageMogr2/auto-orient/strip" alt="移动"></p>
+<p>这已经是最简单的一个动画效果了。（无视起点位置不对=。=视频录制时机总是晚）</p>
+<p>下面老司机逐句讲解一下。</p>
+<p>首先呢，我创建了一个animation对象。那个<code>keyPath</code>是什么呢？是我们要修改的属性名。那，我们要给谁做动画？老司机说过，CAAnimation都是对CALayer进行展示动画的。所以这属性当然是<code>CALayer的属性</code>了。至于那些属性改变支持动画效果呢？command + 左键点进CALayer，我们能看到CALayer的每个属性。看他的注释，是不是最后一句有一个<code>animatable</code>。对了，有这个的，<code>就是支持动画</code>的。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1835430-24721d8aad9561dc.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="支持动画的属性"></p>
+<p>接下来的三句有了上面的介绍就应该很清楚了，分别是完成时不移除，完成时保持末尾状态，播放时长2秒。</p>
+<p>再往下看，我<code>给animation的toValue赋值</code>。</p>
+<p>这是在做什么呢？不知道，我们就点进去看看。</p>
+<p>这个看到有<code>toValue，fromValue，byValue</code>。<br>注释还挺多，分开看。老司机之前说过，<code>CABasicAnimation是要指定动画的初始状态和终止状态的</code>。那这三个属性就是用来指定状态的。</p>
+<ul>
+<li>from就是指定初始状态</li>
+<li>toValue就是终止状态</li>
+<li>by就是状态的增量</li>
+</ul>
+<p>这三个值呢，<code>不能全为空</code>，以为这样你就一个状态也没有指定。</p>
+<p><code>也不能全不为空</code>，因为这样你就指定了三个状态，系统也不知道选哪两个。</p>
+<p>若果你<code>指定了一个状态</code>，那系统将自动<code>以当前状态作为另一个状态</code>。</p>
+<p>若你<code>指定了两个状态</code>，则系统<code>已这两个状态作为始末状态</code>。</p>
+<p>还有一点要说的是，看属性也看的出来，这个value你是要<code>传入一个对象</code>的，所以老司机将CGPoint装在了一个NSValue中。</p>
+<p>最后一句就是将动画填入layer中了，注意这里老司机图省事就没有给key。实际开发中<code>建议开发者填写key且key不可重复</code>，因为如果涉及到检测动画播放进度或者是移除动画之类的都要填写正确的key才可以。</p>
+<p>好的，我们的动画已经初具规模了，我们一点一点完善。</p>
+<pre><code>CABasicAnimation * animaiton = [CABasicAnimation animationWithKeyPath:@&quot;position&quot;];
+animaiton.removedOnCompletion = NO;
+animaiton.fillMode = kCAFillModeForwards;
+animaiton.duration = 2;
+animaiton.beginTime = CACurrentMediaTime() + 1;
+animaiton.repeatCount = MAXFLOAT;
+animaiton.toValue = [NSValue valueWithCGPoint:CGPointMake(400, 400)];
+[redView.layer addAnimation:animaiton forKey:nil];
+</code></pre><p>代码改成了这个样子，跑一下看看是什么样子。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1835430-bab04c38cdbb7b08.gif?imageMogr2/auto-orient/strip" alt="延时"></p>
+<p>我们看到我添加这延时语句，同时改变了repeatCount让他无限循环。（这里你要注意我延时语句的写法）</p>
+<p>我们再稍微改一下</p>
+<pre><code>CABasicAnimation * animaiton = [CABasicAnimation animationWithKeyPath:@&quot;position&quot;];
+animaiton.removedOnCompletion = NO;
+animaiton.fillMode = kCAFillModeForwards;
+animaiton.duration = 2;
+animaiton.toValue = [NSValue valueWithCGPoint:CGPointMake(400, 400)];
+[redView.layer addAnimation:animaiton forKey:nil];
+animaiton.beginTime = CACurrentMediaTime() + 1;
+animaiton.repeatCount = MAXFLOAT;
+</code></pre><p>发现变化了么？老司机把重复和延时放在了添加动画之后，这个时候动画是什么样子的呢？</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1835430-a86ec17b9a2c3a31.gif?imageMogr2/auto-orient/strip" alt="调整语句顺序"></p>
+<p>延时没有了，也不重复了，怎么回事？？？</p>
+<p>因为当你调用addAnimation：forKey：这句时，其实系统是对你传入的<code>animation进行了一次copy</code>，然后<code>把copy的这份添加在图层上</code>。这时你再改animation当然是不能更改动画效果的了。</p>
+<p><strong>这里同时也引出了一点，当你将animation加入layer层以后，你就无法再更改动画效果了。</strong></p>
+<p>其他的属性都是字面意思，老司机就不一句一句讲了。</p>
+<hr>
+<h2 id="CAKeyframeAnimation"><a href="#CAKeyframeAnimation" class="headerlink" title="CAKeyframeAnimation"></a>CAKeyframeAnimation</h2><p>刚才也忘了说了，其实CABasicAnimation和CAKeyframeAnimation都是继承自CAPropertyAnimation。看名字就知道是根据属性来展示动画的。</p>
+<p>所以CAKeyframeAnimation也是根据属性展示动画的，他与CABasicAnimation的不同点在于他可以<code>指定多个状态</code>，不局限于始末状态，这样<code>你的动画将更加灵活。</code></p>
+<pre><code>CAKeyframeAnimation * animation = [CAKeyframeAnimation animationWithKeyPath:@&quot;position&quot;];
+animation.values = @[[NSValue valueWithCGPoint:CGPointMake(0, 0)],[NSValue valueWithCGPoint:CGPointMake(100, 100)],[NSValue valueWithCGPoint:CGPointMake(0, 200)]];
+animation.duration = 2;
+animation.removedOnCompletion = NO;
+animation.fillMode = kCAFillModeForwards;
+[redView.layer addAnimation:animation forKey:@&quot;keyframe&quot;];
+</code></pre><p><img src="http://upload-images.jianshu.io/upload_images/1835430-bf5c0269b3108fe8.gif?imageMogr2/auto-orient/strip" alt="keyframe"></p>
+<p>还是逐句讲一下。</p>
+<p>我先生成一个CAKeyframeAnimation对象，指定要做动画的属性。<br>然后<code>给values属性给了一个数组</code>。这什么意思呢？<code>CABasicAnimation是指定两个状态，而我们的CAKeyframeAnimation则是指定多个状态</code>，动画也的确按照我的规划移动了。</p>
+<p>其实这里你应该注意到一点，有没有发现我的红色方形最开始是看不到全部的？因为还记得<code>锚点</code>那个概念么？他的初始值是CGPointMake(0.5,0.5),<code>所有动画都是以锚点为参考点</code>，所以说你指定的状态都是相对于锚点来说的状态。当然如果有需要，你可以修改锚点来实现一些特殊的动画效果。</p>
+<p>改一下代码</p>
+<pre><code>CAKeyframeAnimation * animation = [CAKeyframeAnimation animationWithKeyPath:@&quot;position&quot;];
+animation.values = @[[NSValue valueWithCGPoint:CGPointMake(0, 0)],[NSValue valueWithCGPoint:CGPointMake(100, 100)],[NSValue valueWithCGPoint:CGPointMake(0, 200)]];
+animation.duration = 2;
+animation.removedOnCompletion = NO;
+animation.fillMode = kCAFillModeForwards;
+animation.calculationMode = kCAAnimationCubicPaced;
+[redView.layer addAnimation:animation forKey:@&quot;keyframe&quot;];
+</code></pre><p><img src="http://upload-images.jianshu.io/upload_images/1835430-0b3020d9906c97d5.gif?imageMogr2/auto-orient/strip" alt="calculationMode"></p>
+<p>我改变了<code>calculationMode</code>这个属性，有没有发现转折点出动作平滑了许多？恩，这个属性是用来改变补间动画的计算模式的。这个属性<code>是CAKeyframeAnimation独有的属性</code>。</p>
+<p>继续修改</p>
+<pre><code>CAKeyframeAnimation * animation = [CAKeyframeAnimation animationWithKeyPath:@&quot;position&quot;];
+animation.values = @[[NSValue valueWithCGPoint:CGPointMake(0, 0)],[NSValue valueWithCGPoint:CGPointMake(100, 100)],[NSValue valueWithCGPoint:CGPointMake(0, 200)]];
+animation.duration = 2;
+animation.removedOnCompletion = NO;
+animation.fillMode = kCAFillModeForwards;
+animation.keyTimes = @[@0,@0.8,@1];
+[redView.layer addAnimation:animation forKey:@&quot;keyframe&quot;];
+</code></pre><p>我去掉了calculationMode属性，添加了keyTimes属性，效果是这样的。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1835430-d64671e9c70a19f9.gif?imageMogr2/auto-orient/strip" alt="keyTimes"></p>
+<p>是不是发现第一段路径速度明显比第二段慢？是因为<code>keyTimes属性指定的是当前状态节点到初始状态节点的时间占动画总时长的比例</code>。若果<code>不设置keyTimes则匀速播放</code>。</p>
+<p>Go on</p>
+<pre><code>CAKeyframeAnimation * animation = [CAKeyframeAnimation animationWithKeyPath:@&quot;position&quot;];
+animation.values = @[[NSValue valueWithCGPoint:CGPointMake(0, 0)],[NSValue valueWithCGPoint:CGPointMake(100, 100)],[NSValue valueWithCGPoint:CGPointMake(0, 200)]];
+animation.duration = 2;
+animation.removedOnCompletion = NO;
+animation.fillMode = kCAFillModeForwards;
+animation.keyTimes = @[@0,@0.8,@1];
+animation.path = [UIBezierPath bezierPathWithOvalInRect:CGRectMake(100, 100, 100, 100)].CGPath;
+[redView.layer addAnimation:animation forKey:@&quot;keyframe&quot;];
+</code></pre><p><img src="http://upload-images.jianshu.io/upload_images/1835430-1fbc0c1de0032f9e.gif?imageMogr2/auto-orient/strip" alt="path"></p>
+<p>这回机智如你应该发现几个问题，第一路径变了。</p>
+<p>因为我们<code>指定了path属性</code>，所以这时<code>values属性将被忽略</code>，按照指定的path运动。（此处注意我给的是CGPathRef类型数据，为什么？还记得之前说的UIKit的事么？）</p>
+<p>第二，即使以path为运动给你好像也不太对？</p>
+<p>这是因为以path为运动轨迹后只是相当于用另一种方式填写了values属性。这是一个圆形的路径，他被分成了四个<code>子路径</code>。然而你在keyTimes中指定的时间状态只有第二个 状态到初始状态的时间比例为1，自然后面的动画就没有了。</p>
+<p>改成下面的样子就好了。</p>
+<pre><code>CAKeyframeAnimation * animation = [CAKeyframeAnimation animationWithKeyPath:@&quot;position&quot;];
+animation.values = @[[NSValue valueWithCGPoint:CGPointMake(0, 0)],[NSValue valueWithCGPoint:CGPointMake(100, 100)],[NSValue valueWithCGPoint:CGPointMake(0, 200)]];
+animation.duration = 2;
+animation.removedOnCompletion = NO;
+animation.fillMode = kCAFillModeForwards;
+animation.keyTimes = @[@0,@0.25,@0.5,@0.75,@1];
+animation.path = [UIBezierPath bezierPathWithOvalInRect:CGRectMake(100, 100, 100, 100)].CGPath;
+[redView.layer addAnimation:animation forKey:@&quot;keyframe&quot;];
+</code></pre><p><img src="http://upload-images.jianshu.io/upload_images/1835430-6511471e8429dfda.gif?imageMogr2/auto-orient/strip" alt="修改keyTimes"></p>
+<p>这里呢，老司机想多嘴一句。当<code>使用path</code>这个属性时需要<code>注意这么一点</code>。就是当你使用的path是<code>两个Path拼接</code>到一起，比如一个波浪线你可以以两个半圆去模拟（当然你也可以使用二次贝塞尔曲线）。这时候其实你的动画是有<code>两个子路径的</code>。如果你<code>不设置calculationMode</code>属性的话，两个子路径之间<code>会有短暂的停顿</code>。所以这里<code>建议修改calculationMode为kCAAnimationPaced或者kCAAnimationCubicPaced</code>。这样动画将更加圆润。</p>
+<p>事实上，CAKeyframeAnimation还有一个独有的属性，<code>rotationMode</code>。这个属性的<code>默认是一个空值nil</code>。有两种可选值，<em>kCAAnimationRotateAuto</em>或者<em> kCAAnimationRotateAutoReverse</em>。如果这个属性设置成以上两个值中的任意一个，当前layer都会<code>始终保持朝向运动方向</code>，也就是跟随运动方向<code>自动旋转</code>。</p>
+<p>为什么特殊说一下这个属性呢？因为大家知道我们时常相对一个物体做旋转动画，然而我们又<code>不单纯的想以layer的中心坐旋转</code>，很多时候可能是layer的某个端点。这个时候你有三种选择：</p>
+<ul>
+<li>更改锚点</li>
+<li>更改你的layer层</li>
+<li>结合移动和转动</li>
+</ul>
+<p><code>更改锚点</code>就是将锚点移至你想旋转的旋转中心。但是其实老司机<code>不建议你修改锚点</code>。因为锚点是一个layer层的参考点。当你修改锚点以后<code>将会影响layer的所有相关属性</code>以至于造成一些你所不希望的后果。</p>
+<p><code>更改layer层</code>就是<code>扩展当前layer区域</code>，以透明区域填补空白区域，强行让你所期望的端点成为旋转中心。这个方法实在<code>笨拙</code>，<code>不优雅</code>。</p>
+<p><code>结合移动和转动</code>就是其实<code>将以端点的转动拆分成锚点的转动及锚点的弧线运动</code>去模拟端点的转动。这个方法是三者中最优雅的了，最起码不是那些取巧的方法。</p>
+<p>但是有了<code>rotationMode</code>这个属性，哈哈，这三个方法都不用了。你只需要一个<code>锚点的弧线动画</code>以及<code>rotationMode = kCAAnimationAutoRotate</code>就可以了，简单了很多吧。</p>
+<hr>
+<p>以上就是基于CAPropertyAnimation的属性动画的基本使用方法，当然这里老司机一直使用移动动画做的示例，你可以<code>更改属性，去做其他的动画都是可以的</code>。另外温馨提示，<code>二级属性也可以哦</code>。</p>
+<p>那你可能要说了，我使用过程中一般不可能只改变一个属性啊，我想两个一起改变怎么办啊？</p>
+<p>我们的衣食父母苹果怎么会没想到呢？所以他为我们提供了一个类，CAAnimationGroup。</p>
+<h2 id="CAAnimationGroup"><a href="#CAAnimationGroup" class="headerlink" title="CAAnimationGroup"></a>CAAnimationGroup</h2><p>看名字就看得出来是动画组了，他支持多个动画并发执行。</p>
+<pre><code>CAKeyframeAnimation * animation = [CAKeyframeAnimation animationWithKeyPath:@&quot;position&quot;];
+animation.values = @[[NSValue valueWithCGPoint:CGPointMake(0, 0)],[NSValue valueWithCGPoint:CGPointMake(100, 100)],[NSValue valueWithCGPoint:CGPointMake(0, 200)]];
+animation.duration = 2;
+animation.removedOnCompletion = NO;
+animation.fillMode = kCAFillModeForwards;
+animation.keyTimes = @[@0,@0.25,@0.5,@0.75,@1];
+animation.path = [UIBezierPath bezierPathWithOvalInRect:CGRectMake(100, 100, 100, 100)].CGPath;
+
+CABasicAnimation * animation2 = [CABasicAnimation animationWithKeyPath:@&quot;cornerRadius&quot;];
+animation2.toValue = @50;
+animation2.duration = 2;
+animation2.fillMode = kCAFillModeForwards;
+animation2.removedOnCompletion = NO;
+
+CAAnimationGroup * group = [CAAnimationGroup animation];
+group.duration = 2;
+group.fillMode = kCAFillModeForwards;
+group.removedOnCompletion = NO;
+group.animations = @[animation,animation2];
+
+[redView.layer addAnimation:group forKey:@&quot;group&quot;];
+</code></pre><p><img src="http://upload-images.jianshu.io/upload_images/1835430-88b254bdbaa34902.gif?imageMogr2/auto-orient/strip" alt="CAAnimationGroup"></p>
+<p>其实用法差不多，不同是的首先我<code>不需要指定属性</code>了，因为CAAnimationGroup可以播放多个属性同时变化，所以不需要指定属性。</p>
+<p>其次<code>不需要指定状态了</code>。因为CAAnimationGroup相当于多个CAAnimation动画并发执行的管理者，本身状态取决于其子动画的状态。</p>
+<p>还有一个animations属性，这个属性用于指定他的子动画。这个属性有些两点，可以说一下。我们点进去可以看到，animations是<code>装有CAAnimation对象一个的数组</code>。这句话的重点就是CAAnimationGroup也继承与CAAnimation，所以<code>CAAnimationGroup是可以嵌套</code>的。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1835430-f7569b4c0c423c81.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="animations"></p>
+<p>记得之前我说过beginTime很重要么？记得那个属性要加上矫正值么？想在你完全不用考虑那个问题了。遇到要改变beginTime的动画，<code>直接把他丢到CAAnimationGroup里面</code>去，然后时间你就直接加吧，也不用矫正了，哈哈哈哈。不过呢，你也不要高兴太早，这里<code>有一个坑</code>，就是<code>animations数组中你的所有CAAnimaiton对象请安beginTime进行升序排列</code>哦，否则也是会有问题的哟。</p>
+<p>CAAnimationGroup是个好东西，简化了很多操作，同时还可以嵌套，属性还很少。<br>支持并发动画演示，屌屌的。</p>
+<hr>
+<h2 id="CATransition"><a href="#CATransition" class="headerlink" title="CATransition"></a>CATransition</h2><p>最后一个啦，转场动画。</p>
+<pre><code>- (void)viewDidLoad {
+    [super viewDidLoad];
+    UIButton * bu = [UIButton buttonWithType:(UIButtonTypeSystem)];
+    [bu setBackgroundColor:[UIColor yellowColor]];
+    [bu setFrame:CGRectMake(200, 200, 100, 100)];
+    [self.view addSubview:bu];
+    [bu addTarget:self action:@selector(a:) forControlEvents:(UIControlEventTouchUpInside)];
+    self.view.backgroundColor = [UIColor grayColor];
+    UIImageView * redView = [[UIImageView alloc] initWithFrame:CGRectMake(100, 100, 100, 100)];
+    redView.backgroundColor = [UIColor redColor];
+    redView.image = [UIImage imageNamed:@&quot;2.jpeg&quot;];
+    [self.view addSubview:redView];
+    self.imgV = redView;    
+}
+-(void)a:(UIButton *)btn
+{
+    CATransition *animation = [CATransition animation];
+    animation.duration = 5;
+    animation.fillMode = kCAFillModeForwards;
+    animation.type = @&quot;rippleEffect&quot;;
+    animation.subtype = kCATransitionFromTop;
+    [self.imgV.layer addAnimation:animation forKey:@&quot;ripple&quot;];
+    self.imgV.image = [UIImage imageNamed:@&quot;3.jpg&quot;];
+}
+</code></pre><p><img src="http://upload-images.jianshu.io/upload_images/1835430-34c04cf9d77613f7.gif?imageMogr2/auto-orient/strip" alt="transition"></p>
+<p>看到了没有这个水波效果还是挺炫的。<br>这个动画有两点不同，一个是<code>type</code>,这个属性指定的是动画的主类型，有以下几种可选择的动画：</p>
+<ul>
+<li>kCATransitionFade</li>
+<li>kCATransitionMoveIn</li>
+<li>kCATransitionPush</li>
+<li>kCATransitionReveal</li>
+</ul>
+<p>还有一些系统私有的动画但是可以安全使用,但是你只能用字符串</p>
+<p>//@”cube” @”moveIn” @”reveal” @”fade”(default) @”pageCurl” @”pageUnCurl” @”suckEffect” @”rippleEffect” @”oglFlip”</p>
+<p>还有一些绝对不能使用的动画我就不放出来了</p>
+<p>另外一个属性是subType。<br>有四种选项：</p>
+<ul>
+<li>kCATransitionFromRight</li>
+<li>kCATransitionFromLeft</li>
+<li>kCATransitionFromTop</li>
+<li>kCATransitionFromBottom</li>
+</ul>
+<p>见名知意，就是指动画的方向啦。</p>
+<p>不过呢，这个转场动画不好的一点是需要跟转场代码写在一起，然而官方又没有给出转场到底是什么概念。</p>
+<p>所以我目前测出来的能用的情况有，<code>imageView切换图片</code>，<code>控制器的push或modal</code>，<code>UIView对象调用exchangeSubviewAtIndex：WithIndex：方法</code>的时候可以出发转场动画，其他我真是没有测出来，有大神知道还望告知=。=十分感谢。</p>
+<hr>
+<p>最后呢，鉴于有同学问到为什么做动画后，layer的frame还是没有发生改变，老司机翻了一下，之前真的忘了说，所以在这里补充一下。</p>
+<p>除了图层树之外，系统在内部为我们的layer维持着三分copy。渲染树、呈现树、模型树。<br>图层树就是想UIView中的subview、superview一样的图层的树状逻辑。<br>他在CAAnimation中的各属性值是不随着动画而实时变化的。</p>
+<p>渲染树是系统内部用来处理动画效果的一份copy。并且对我们是不公开的，我们无法调用。</p>
+<p>呈现树是动画中每一个瞬时状态的各个属性值得那份copy，他是随着动画实时改变的。可以通过layer的presentationLayer进行访问。</p>
+<p>模型树是系统内部用来表示动画目标状态的各属性值的copy，可以通过modelLayer进行访问。</p>
+<hr>
+<p>以上呢，就是CAAnimation的基本使用方法，基于这个你还可以自己组合出很多绚丽的动画，老司机就不在在这卖弄了。</p>
+<hr>
+<p>哦，老司机刚才说了，老司机写CoreAnimation的教程是有阴谋的，阴谋是什么呢？嘿嘿嘿~</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1835430-e7d2fc246edd25c7.gif?imageMogr2/auto-orient/strip" alt="好多动画在一起"></p>
+<p>呐，这是一个老司机封装的DWAnimation，他可以轻松、优雅地帮助你生成上面的动画。(有些动画播放两次是因为demo中要展示某些属性的用处，不要在意)</p>
+<p>比如这样：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1835430-04a7fd69f578b586.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="优雅么？"></p>
+<p>下面是gitHub地址：<a href="https://github.com/CodeWicky/DWAnimation" target="_blank" rel="external">DWAnimation</a></p>
+<p>这次老司机希望如果你喜欢，给我个star吧，哈哈哈。</p>
+<hr>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
+<li><p><a href="http://www.cnblogs.com/kenshincui/p/3972100.html" target="_blank" rel="external">崔神写的关于CoreAnimation相关，个人认为全网最全！</a></p>
+</li>
+<li><p><a href="http://www.cocoachina.com/programmer/20131218/7569.html" target="_blank" rel="external">CAMediaTiming的详解</a></p>
+</li>
+<li><p><a href="http://www.cocoachina.com/ios/20150105/10812.html" target="_blank" rel="external">隐式动画和显式动画</a></p>
+</li>
+</ul>
+<hr>
+<p>写在最后，有的朋友说过不喜欢我写博客的风格，呐这里我想解释一下。</p>
+<p>首先呢，不是老司机做作，老司机平时就这样，<code>没事就好扯咸蛋</code>。。</p>
+<p>再者呢，老司机写博客呢，也是纯粹<code>为了记录自己学习过的知识</code>，因为老司机自己也记不住。</p>
+<p>三呢，老司机写博客呢，是<code>给一些刚入门的同学写的</code>，因为老司机一直都是在科普一些比较寻常的东西。既然是给入门的同学讲，老司机自然是能讲多细讲多细，知无不言言无不尽。但我要一直一板一眼的说，你看不到半小时保证就难以集中精力了。所以么，老司机是需要扯淡的。</p>
+<p>四呢，由于老司机写博客都是想起来啥说啥，可能你们真要是做项目找资料的看到我的博客都嫌烦，没事的，<code>移步简书首页善用搜索功能</code>，我是给坐地铁无聊的小伙伴们打发时间写的。</p>
+<p>最后，老司机就这样，<br><strong>你咬我啊。</strong></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1835430-6d94ce1bd36d5f61.gif?imageMogr2/auto-orient/strip" alt="你咬我啊"></p>
+<hr>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>各位土豪大佬觉得好的话可以随意打赏下~</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="http://or3w6eypz.bkt.clouddn.com/blogTheme/NexT/png/wxPay.jpeg" alt="CodeWicky WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="http://or3w6eypz.bkt.clouddn.com/blogTheme/NexT/png/aliPay.jpeg" alt="CodeWicky Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/CAAnimation/" rel="tag"># CAAnimation</a>
+          
+            <a href="/tags/核心动画/" rel="tag"># 核心动画</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/06/04/TableView优化之高度缓存/" rel="next" title="TableView优化之高度缓存">
+                <i class="fa fa-chevron-left"></i> TableView优化之高度缓存
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/09/21/老司机带你走进Core-Animation-之CADisplayLink/" rel="prev" title="老司机带你走进Core Animation 之CADisplayLink">
+                老司机带你走进Core Animation 之CADisplayLink <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="SOHUCS"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="CodeWicky" />
+          <p class="site-author-name" itemprop="name">CodeWicky</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">18</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">26</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/CodeWicky" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.jianshu.com/u/a56ec10f6603" target="_blank" title="简书">
+                  
+                    <i class="fa fa-fw fa-user-circle"></i>
+                  
+                  简书
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="mailto:codewicky@163.com" target="_blank" title="E-Mail">
+                  
+                    <i class="fa fa-fw fa-envelope"></i>
+                  
+                  E-Mail
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#CALayer"><span class="nav-number">1.</span> <span class="nav-text">CALayer</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#那他与UIView又有什么区别和联系呢？"><span class="nav-number">1.1.</span> <span class="nav-text">那他与UIView又有什么区别和联系呢？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CALayer有具体有什么属性呢？"><span class="nav-number">1.2.</span> <span class="nav-text">CALayer有具体有什么属性呢？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CAAnimation"><span class="nav-number">2.</span> <span class="nav-text">CAAnimation</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#CAAnimation是什么呢？"><span class="nav-number">2.1.</span> <span class="nav-text">CAAnimation是什么呢？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CABasicAnimation"><span class="nav-number">3.</span> <span class="nav-text">CABasicAnimation</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CAKeyframeAnimation"><span class="nav-number">4.</span> <span class="nav-text">CAKeyframeAnimation</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CAAnimationGroup"><span class="nav-number">5.</span> <span class="nav-text">CAAnimationGroup</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CATransition"><span class="nav-number">6.</span> <span class="nav-text">CATransition</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考资料"><span class="nav-number">7.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CodeWicky</span>
+</div>
+
+
+<div class="theme-info">
+<p>Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a></p>
+</div>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+  
+  <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+  
+    <script type="text/javascript">
+    (function(){
+      var appid = 'cyt3f8T5R';
+      var conf = '5034be04c3b67fdcb8fbc7661b2c48bd';
+      var width = window.innerWidth || document.documentElement.clientWidth;
+      if (width < 960) {
+      window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){
+        window.changyan.api.config({appid:appid,conf:conf})});
+      }
+    })();
+    </script>
+    <script type="text/javascript" src="https://assets.changyan.sohu.com/upload/plugins/plugins.count.js"></script>
+  
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("1IlPuOHFMSDCU3gbiqhOUE7m-gzGzoHsz", "11zBsvOWeJCGzXNguE7305pF");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

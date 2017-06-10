@@ -1,0 +1,1075 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="CoreText,图文混排,点击事件," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/Favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="系列文章：  CoreText实现图文混排 CoreText实现图文混排之点击事件 CoreText实现图文混排之文字环绕及点击算法   今天呢，我们继续把CoreText图文混排的点击事件补充上，这样我们的图文混排也算是圆满了。">
+<meta name="keywords" content="CoreText,图文混排,点击事件">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CoreText实现图文混排之点击事件">
+<meta property="og:url" content="http://codewicky.coding.me/2016/05/17/CoreText实现图文混排之点击事件/index.html">
+<meta property="og:site_name" content="R &amp; W">
+<meta property="og:description" content="系列文章：  CoreText实现图文混排 CoreText实现图文混排之点击事件 CoreText实现图文混排之文字环绕及点击算法   今天呢，我们继续把CoreText图文混排的点击事件补充上，这样我们的图文混排也算是圆满了。">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1835430-1e81a37668cb04ba.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1835430-c25b68eae4815985.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1835430-6557831b9e067768.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2017-06-04T23:33:44.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CoreText实现图文混排之点击事件">
+<meta name="twitter:description" content="系列文章：  CoreText实现图文混排 CoreText实现图文混排之点击事件 CoreText实现图文混排之文字环绕及点击算法   今天呢，我们继续把CoreText图文混排的点击事件补充上，这样我们的图文混排也算是圆满了。">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/1835430-1e81a37668cb04ba.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":true},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://codewicky.coding.me/2016/05/17/CoreText实现图文混排之点击事件/"/>
+
+
+
+
+
+  <title>CoreText实现图文混排之点击事件 | R & W</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">R & W</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description">愿得今朝图鸿志，不作江郎叹息声。</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-messageboard">
+          <a href="/messageBoard" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            留言板
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://codewicky.coding.me/2016/05/17/CoreText实现图文混排之点击事件/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="CodeWicky">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="R & W">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">CoreText实现图文混排之点击事件</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-05-17T07:33:44+08:00">
+                2016-05-17
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2017-06-05T07:33:44+08:00">
+                2017-06-05
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/图文混排/" itemprop="url" rel="index">
+                    <span itemprop="name">图文混排</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-comment-o"></i>
+              </span>
+              
+                  <span class="post-meta-item-text">讨论</span>
+              
+              
+                <a href="/2016/05/17/CoreText实现图文混排之点击事件/" itemprop="discussionUrl">
+                  <span id="changyan_count_unit" class="post-comments-count hc-comment-count" data-xid="2016/05/17/CoreText实现图文混排之点击事件/" itemprop="commentsCount"></span>
+                </a>
+              
+            
+          
+
+          
+          
+             <span id="/2016/05/17/CoreText实现图文混排之点击事件/" class="leancloud_visitors" data-flag-title="CoreText实现图文混排之点击事件">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="http://upload-images.jianshu.io/upload_images/1835430-1e81a37668cb04ba.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="CoreText实现图文混排之点击事件"><br>系列文章：</p>
+<ul>
+<li><a href="http://www.jianshu.com/p/6db3289fb05d" target="_blank" rel="external">CoreText实现图文混排</a></li>
+<li><a href="http://www.jianshu.com/p/51c47329203e" target="_blank" rel="external">CoreText实现图文混排之点击事件</a></li>
+<li><a href="http://www.jianshu.com/p/e154047b0f98" target="_blank" rel="external">CoreText实现图文混排之文字环绕及点击算法</a></li>
+</ul>
+<hr>
+<p>今天呢，我们继续把CoreText图文混排的<code>点击事件</code>补充上，这样我们的图文混排也算是圆满了。</p>
+<a id="more"></a>
+<p>哦，上一篇的链接在这里<br><a href="http://www.jianshu.com/p/6db3289fb05d" target="_blank" rel="external">CoreText实现图文混排</a>。所有需要用到的<code>准备知识</code>都在上一篇，没有赶上车的朋友可以去补个票~</p>
+<p>上正文。</p>
+<hr>
+<h2 id="全部代码"><a href="#全部代码" class="headerlink" title="全部代码"></a>全部代码</h2><p>我们知道，CoreText是基于UIView去绘制的，那么既然有UIView，就有</p>
+<p>-(void)touchesBegan:(NSSet<uitouch *=""> <em>)touches withEvent:(UIEvent </em>)event方法，我们呢，就是基于这个方法去做点击事件的。</uitouch></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">通过touchBegan方法拿到当前点击到的点，然后通过坐标判断这个点是否在某段文字上，如果在则触发对应事件。</div></pre></td></tr></table></figure>
+<p>上面呢就是主要思路。接下来呢，我们来详细讲解一下。还是老规矩，先上代码。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div></pre></td><td class="code"><pre><div class="line">-(void)touchesBegan:(NSSet&lt;UITouch *&gt; *)touches withEvent:(UIEvent *)event</div><div class="line">&#123;</div><div class="line">    UITouch * touch = [touches anyObject];</div><div class="line">    CGPoint location = [self systemPointFromScreenPoint:[touch locationInView:self]];</div><div class="line">    if ([self checkIsClickOnImgWithPoint:location]) &#123;</div><div class="line">            return;</div><div class="line">    &#125;</div><div class="line">    [self ClickOnStrWithPoint:location];</div><div class="line">&#125;</div><div class="line"></div><div class="line">-(BOOL)checkIsClickOnImgWithPoint:(CGPoint)location</div><div class="line">&#123;</div><div class="line">    if ([self isFrame:_imgFrm containsPoint:location]) &#123;</div><div class="line">    	NSLog(@&quot;您点击到了图片&quot;);</div><div class="line">        return YES;</div><div class="line">    &#125;</div><div class="line">    return NO;</div><div class="line">&#125;</div><div class="line"></div><div class="line">-(void)ClickOnStrWithPoint:(CGPoint)location</div><div class="line">&#123;</div><div class="line">    NSArray * lines = (NSArray *)CTFrameGetLines(self.data.ctFrame);</div><div class="line">    CFRange ranges[lines.count];</div><div class="line">    CGPoint origins[lines.count];</div><div class="line">    CTFrameGetLineOrigins(_frame, CFRangeMake(0, 0), origins);</div><div class="line">    for (int i = 0; i &lt; lines.count; i ++) &#123;</div><div class="line">        CTLineRef line = (__bridge CTLineRef)lines[i];</div><div class="line">        CFRange range = CTLineGetStringRange(line);</div><div class="line">        ranges[i] = range;</div><div class="line">    &#125;</div><div class="line">    for (int i = 0; i &lt; _length; i ++) &#123;</div><div class="line">        long maxLoc;</div><div class="line">        int lineNum;</div><div class="line">        for (int j = 0; j &lt; lines.count; j ++) &#123;</div><div class="line">            CFRange range = ranges[j];</div><div class="line">            maxLoc = range.location + range.length - 1;</div><div class="line">            if (i &lt;= maxLoc) &#123;</div><div class="line">                lineNum = j;</div><div class="line">                break;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        CTLineRef line = (__bridge CTLineRef)lines[lineNum];        CGPoint origin = origins[lineNum];</div><div class="line">        CGRect CTRunFrame = [self frameForCTRunWithIndex:i CTLine:line origin:origin];</div><div class="line">        if ([self isFrame:CTRunFrame containsPoint:location]) &#123;  </div><div class="line">            NSLog(@&quot;您点击到了第 %d 个字符，位于第 %d 行，然而他没有响应事件。&quot;,i,lineNum + 1);//点击到文字，然而没有响应的处理。可以做其他处理</div><div class="line">            return;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    NSLog(@&quot;您没有点击到文字&quot;);</div><div class="line">&#125;</div><div class="line"></div><div class="line">-(BOOL)isIndex:(NSInteger)index inRange:(NSRange)range</div><div class="line">&#123;</div><div class="line">    if ((index &lt;= range.location + range.length - 1) &amp;&amp; (index &gt;= range.location)) &#123;</div><div class="line">        return YES;</div><div class="line">    &#125;</div><div class="line">    return NO;</div><div class="line">&#125;</div><div class="line"></div><div class="line">-(CGPoint)systemPointFromScreenPoint:(CGPoint)origin</div><div class="line">&#123;</div><div class="line">    return CGPointMake(origin.x, self.bounds.size.height - origin.y);</div><div class="line">&#125;</div><div class="line"></div><div class="line">-(BOOL)isFrame:(CGRect)frame containsPoint:(CGPoint)point</div><div class="line">&#123;</div><div class="line">    return CGRectContainsPoint(frame, point);</div><div class="line">&#125;</div><div class="line"></div><div class="line">-(CGRect)frameForCTRunWithIndex:(NSInteger)index</div><div class="line">                         CTLine:(CTLineRef)line</div><div class="line">                         origin:(CGPoint)origin</div><div class="line">&#123;</div><div class="line">    CGFloat offsetX = CTLineGetOffsetForStringIndex(line, index, NULL);</div><div class="line">    CGFloat offsexX2 = CTLineGetOffsetForStringIndex(line, index + 1, NULL);</div><div class="line">    offsetX += origin.x;</div><div class="line">    offsexX2 += origin.x;</div><div class="line">    CGFloat offsetY = origin.y;</div><div class="line">    CGFloat lineAscent;</div><div class="line">    CGFloat lineDescent;</div><div class="line">    NSArray * runs = (__bridge NSArray *)CTLineGetGlyphRuns(line);</div><div class="line">    CTRunRef runCurrent;</div><div class="line">    for (int k = 0; k &lt; runs.count; k ++) &#123;</div><div class="line">        CTRunRef run = (__bridge CTRunRef)runs[k];</div><div class="line">        CFRange range = CTRunGetStringRange(run);</div><div class="line">        NSRange rangeOC = NSMakeRange(range.location, range.length);</div><div class="line">        if ([self isIndex:index inRange:rangeOC]) &#123;</div><div class="line">            runCurrent = run;</div><div class="line">            break;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    CTRunGetTypographicBounds(runCurrent, CFRangeMake(0, 0), &amp;lineAscent, &amp;lineDescent, NULL);</div><div class="line">    CGFloat height = lineAscent + lineDescent;</div><div class="line">    return CGRectMake(offsetX, offsetY, offsexX2 - offsetX, height);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>看上去也挺多的，我们还是分段讲解吧。</p>
+<hr>
+<h2 id="分段解析"><a href="#分段解析" class="headerlink" title="分段解析"></a>分段解析</h2><h3 id="touchesBegan"><a href="#touchesBegan" class="headerlink" title="-touchesBegan"></a>-touchesBegan</h3><p>之所以把他放在首位，是因为他作为整个view响应点击事件的<code>入口</code>扮演者十分重要的角色。</p>
+<p>他负责<code>接收点击事件</code>，根据条件将点击事件<code>分发给不同的对象</code>去执行相应的响应。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">///点击方法</div><div class="line">-(void)touchesBegan:(NSSet&lt;UITouch *&gt; *)touches withEvent:(UIEvent *)event</div><div class="line">&#123;</div><div class="line">    UITouch * touch = [touches anyObject];</div><div class="line">    CGPoint location = [self systemPointFromScreenPoint:[touch locationInView:self]];//获取点击位置的系统坐标</div><div class="line">    if ([self checkIsClickOnImgWithPoint:location]) &#123;//检查是否点击在图片上，如果在，优先响应图片事件</div><div class="line">        return;</div><div class="line">    &#125;</div><div class="line">    [self ClickOnStrWithPoint:location];//响应字符串事件</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这里老司机还是要解释一下，为什么我要设置成优先响应图片的事件呢？</p>
+<p>是这样的，在我们使用的过程中，大部分的场景是如下过程：</p>
+<ul>
+<li>给整段富文本添加属性，事件等</li>
+<li>插入图片</li>
+<li>给图片设置点击事件</li>
+</ul>
+<p>正是因为这样，我们可以看出逻辑上图片的响应事件的优先级明显是要高于文字的。即使是一段<code>文字范围我们赋值了文字的响应事件</code>，然后在范围中插入了图片并且赋予了图片响应事件，我们往往是<code>希望图片响应其自己的事件</code>。同时，不知道你们是否还记得<a href="http://www.jianshu.com/p/6db3289fb05d" target="_blank" rel="external">上一趟车</a>我们已经求出了图片的frame，如果优先判断出点击的是图片的话将会<code>减少很多计算量</code>，<code>提高运行效率</code>。所以我这里将图片的响应优先级定义的高于文字，不过根据需要我们可以定义不同的响应优先级。</p>
+<p>搞明白这一点以后，其实逻辑就很简单了。</p>
+<ul>
+<li>首先呢，先取出当前点击的到屏幕坐标的点。</li>
+<li>将屏幕坐标转换为系统坐标（不懂得同学快去上一节补课）</li>
+<li>判断是否点击在图片上</li>
+<li>如果未点击图片执行点击文字</li>
+</ul>
+<hr>
+<h3 id="获取点击坐标"><a href="#获取点击坐标" class="headerlink" title="获取点击坐标"></a>获取点击坐标</h3><p>-touchesBegan事件给我们提供了touches这么一个集合。里面装满了UITouch对象。</p>
+<p>因为集合是无序的，所以我们通过anyObject取出其中的一个UITouch对象。<br>UITouch对象的locationInView是专门用来给出UITouch对象在某个View中的坐标的方法，因此我们可以用这个方法来求出当前点击位置的系统坐标。这段比较基础，想画个重点都不知道画哪。</p>
+<hr>
+<h3 id="坐标转换"><a href="#坐标转换" class="headerlink" title="坐标转换"></a>坐标转换</h3><p>这里用到了第一个工具方法（老司机习惯把写好的方法分类，这些中间方法老司机习惯叫他们工具方法），-(CGPoint)systemPointFromScreenPoint:(CGPoint)origin。</p>
+<p>简单的说一句，因为屏幕坐标与系统坐标的不同，我们要将坐标系<code>统一成系统坐标</code>，这样才能计算，所以才有了这个坐标转换的方法。其实很简单</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">///坐标转换</div><div class="line">/*</div><div class="line"> 将屏幕坐标转换为系统坐标</div><div class="line"> */</div><div class="line">-(CGPoint)systemPointFromScreenPoint:(CGPoint)origin</div><div class="line">&#123;</div><div class="line">    return CGPointMake(origin.x, self.bounds.size.height - origin.y);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>上一讲有坐标系的图，这里我就不细讲了。直接进入下一话题。</p>
+<hr>
+<h3 id="点击图片判断"><a href="#点击图片判断" class="headerlink" title="点击图片判断"></a>点击图片判断</h3><p>第二个工具方法</p>
+<p>-(BOOL)checkIsClickOnImgWithPoint:(CGPoint)location</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">///图片点击检查</div><div class="line">/*</div><div class="line"> 遍历图片frame的数组与点击位置比较，如果在</div><div class="line"> 范围内则响应的数组中取出对应响应并执行，返</div><div class="line"> 回yes，否则返回no</div><div class="line"> */</div><div class="line">-(BOOL)checkIsClickOnImgWithPoint:(CGPoint)location</div><div class="line">&#123;</div><div class="line">    if ([self isFrame:_imgFrm containsPoint:location]) &#123;</div><div class="line">    	NSLog(@&quot;您点击到了图片&quot;);</div><div class="line">        return YES;</div><div class="line">    &#125;</div><div class="line">    return NO;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这里呢，我们用到了第三个工具方法，顺便就说了吧</p>
+<p>-(BOOL)isFrame:(CGRect)frame containsPoint:(CGPoint)point</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">///点包含检测</div><div class="line">-(BOOL)isFrame:(CGRect)frame containsPoint:(CGPoint)point</div><div class="line">&#123;</div><div class="line">    return CGRectContainsPoint(frame, point);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>事实上也是调用了系统的一个方法<code>CGRectContainsPoint()</code>。这个方法两个参数，一个是frame，一个是point。可以返回point是否在frame中。</p>
+<p>不过还是有一点需要注意的。由于<code>传入的point是系统坐标</code>（本例中），所以frame我们一定要<code>传入系统坐标系下的frame</code>才能正确对应。</p>
+<p>这里老司机偷了个懒，直接把上一讲中求得的图片frame改成了一个实例变量，这样在这里的方法中我就能直接调用了。这只是个demo，所以我就怎么方便怎么来了，实际使用中，你可以<code>把frame保存在数组或字典中</code>。你问我怎么在数组或字典中保存一个frame这样的结构体？恩，有一个系统类叫<code>NSValue</code>，专门针对这种结构体。</p>
+<p>如果-(BOOL)isFrame:(CGRect)frame containsPoint:(CGPoint)point返回YES则说明在图片范围内，则<code>响应图片的点击事件</code>，</p>
+<p><code>并且-(BOOL)checkIsClickOnImgWithPoint:(CGPoint)location返回YES</code>，否则返回NO。</p>
+<p>回到上一层，如果-(BOOL)checkIsClickOnImgWithPoint:(CGPoint)location返回YES，则说明<code>点击的是图片并且已经执行完响应事件</code>，<code>直接return结束方法即可</code>。否则则继续检查是否点击到了文字。</p>
+<hr>
+<h3 id="点击文字判断"><a href="#点击文字判断" class="headerlink" title="点击文字判断"></a>点击文字判断</h3><p>终于进入重中之重了，点击文字的逻辑了，不过你也别害怕，如果你对上一讲的讲解有了一定的理解的话，这里将变得简单一些。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1835430-c25b68eae4815985.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="逻辑图"><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line">///字符串点击检查</div><div class="line">/*</div><div class="line"> 实际上接受所有非图片的点击事件，将字符串的每个</div><div class="line"> 字符取出与点击位置比较，若在范围内则点击到文字</div><div class="line"> ，进而检测对应的文字是否响应事件，若存在响应</div><div class="line"> */</div><div class="line">-(void)ClickOnStrWithPoint:(CGPoint)location</div><div class="line">&#123;</div><div class="line">    NSArray * lines = (NSArray *)CTFrameGetLines(self.data.ctFrame);//获取所有CTLine</div><div class="line">    CFRange ranges[lines.count];//初始化范围数组</div><div class="line">    CGPoint origins[lines.count];//初始化原点数组</div><div class="line">    CTFrameGetLineOrigins(_frame, CFRangeMake(0, 0), origins);//获取所有CTLine的原点</div><div class="line">    for (int i = 0; i &lt; lines.count; i ++) &#123;</div><div class="line">        CTLineRef line = (__bridge CTLineRef)lines[i];</div><div class="line">        CFRange range = CTLineGetStringRange(line);</div><div class="line">        ranges[i] = range;</div><div class="line">    &#125;//获取所有CTLine的Range</div><div class="line">    for (int i = 0; i &lt; _length; i ++) &#123;//逐字检查</div><div class="line">        long maxLoc;</div><div class="line">        int lineNum;</div><div class="line">        for (int j = 0; j &lt; lines.count; j ++) &#123;//获取对应字符所在CTLine的index</div><div class="line">            CFRange range = ranges[j];</div><div class="line">            maxLoc = range.location + range.length - 1;</div><div class="line">            if (i &lt;= maxLoc) &#123;</div><div class="line">                lineNum = j;</div><div class="line">                break;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        CTLineRef line = (__bridge CTLineRef)lines[lineNum];//取到字符对应的CTLine</div><div class="line">        CGPoint origin = origins[lineNum];</div><div class="line">        CGRect CTRunFrame = [self frameForCTRunWithIndex:i CTLine:line origin:origin];//计算对应字符的frame</div><div class="line">        if ([self isFrame:CTRunFrame containsPoint:location]) &#123;//如果点击位置在字符范围内，响应时间，跳出循环</div><div class="line">            NSLog(@&quot;您点击到了第 %d 个字符，位于第 %d 行，然而他没有响应事件。&quot;,i,lineNum + 1);//点击到文字，然而没有响应的处理。可以做其他处理</div><div class="line">            return;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    NSLog(@&quot;您没有点击到文字&quot;);//没有点击到文字，可以做其他处理</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>看上去很多是吧？有没有怕怕的。</p>
+<p>仔细看你会发现，有很多代码跟昨天的有相似之处，就是这样，因为这里也<code>遍历</code>了每一个CTRun，只不过更加细化到<code>CTRun中的每个字</code>。</p>
+<h4 id="获取CTLine"><a href="#获取CTLine" class="headerlink" title="获取CTLine"></a>获取CTLine</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">NSArray * lines = (NSArray *)CTFrameGetLines(self.data.ctFrame);//获取所有CTLine</div><div class="line">    CFRange ranges[lines.count];//初始化范围数组</div><div class="line">    CGPoint origins[lines.count];//初始化原点数组</div><div class="line">    CTFrameGetLineOrigins(_frame, CFRangeMake(0, 0), origins);//获取所有CTLine的原点</div></pre></td></tr></table></figure>
+<p>这四句我就不多说了，获取所有CTLine和其原点。</p>
+<h4 id="获取CTLine所表示范围"><a href="#获取CTLine所表示范围" class="headerlink" title="获取CTLine所表示范围"></a>获取CTLine所表示范围</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">for (int i = 0; i &lt; lines.count; i ++) &#123;</div><div class="line">        CTLineRef line = (__bridge CTLineRef)lines[i];</div><div class="line">        CFRange range = CTLineGetStringRange(line);</div><div class="line">        ranges[i] = range;</div><div class="line">    &#125;//获取所有CTLine的Range</div></pre></td></tr></table></figure>
+<p>获取每个CTLine中包含的富文本<code>在整串富文本中的范围</code>。将所有CTLine中字符串的范围保存下来放入数组备用。</p>
+<h4 id="获取CTRun"><a href="#获取CTRun" class="headerlink" title="获取CTRun"></a>获取CTRun</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">for (int i = 0; i &lt; _length; i ++)</div></pre></td></tr></table></figure>
+<p>这个for循环用来遍历富文本中的<code>每一个字符</code>。下面的代码都是在for循环中的循环体。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">for (int j = 0; j &lt; lines.count; j ++) &#123;//获取对应字符所在CTLine的index</div><div class="line">            CFRange range = ranges[j];</div><div class="line">            maxLoc = range.location + range.length - 1;</div><div class="line">            if (i &lt;= maxLoc) &#123;</div><div class="line">                lineNum = j;</div><div class="line">                break;</div><div class="line">            &#125;</div><div class="line">        &#125;</div></pre></td></tr></table></figure>
+<p>这里又是一层循环，通过当前<code>字符序号i</code>与每个<code>CTLine包含字符的范围</code>比较来求得当前<code>计算的是哪个CTLine中的字符</code>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">CTLineRef line = (__bridge CTLineRef)lines[lineNum];//取到字符对应的CTLine</div><div class="line">        CGPoint origin = origins[lineNum];</div><div class="line">        CGRect CTRunFrame = [self frameForCTRunWithIndex:i CTLine:line origin:origin];//计算对应字符的frame</div></pre></td></tr></table></figure>
+<h4 id="计算CTRun的frame"><a href="#计算CTRun的frame" class="headerlink" title="计算CTRun的frame"></a>计算CTRun的frame</h4><p>取得当前字符所在的CTLine并取得该CTLine的原点，同时通过这里的第五个工具方法</p>
+<p>-(CGRect)frameForCTRunWithIndex:(NSInteger)index<br>                         CTLine:(CTLineRef)line<br>                         origin:(CGPoint)origin</p>
+<p>计算当前字符的frame。<br>分解讲一下这个方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line">///字符frame计算</div><div class="line">/*</div><div class="line"> 返回索引字符的frame</div><div class="line"> </div><div class="line"> index：索引</div><div class="line"> line：索引字符所在CTLine</div><div class="line"> origin：line的起点</div><div class="line">*/</div><div class="line">-(CGRect)frameForCTRunWithIndex:(NSInteger)index</div><div class="line">                         CTLine:(CTLineRef)line</div><div class="line">                         origin:(CGPoint)origin</div><div class="line">&#123;</div><div class="line">    CGFloat offsetX = CTLineGetOffsetForStringIndex(line, index, NULL);//获取字符起点相对于CTLine的原点的偏移量</div><div class="line">    CGFloat offsexX2 = CTLineGetOffsetForStringIndex(line, index + 1, NULL);//获取下一个字符的偏移量，两者之间即为字符X范围</div><div class="line">    offsetX += origin.x;</div><div class="line">    offsexX2 += origin.x;//坐标转换，将点的CTLine坐标转换至系统坐标</div><div class="line">    CGFloat offsetY = origin.y;//取到CTLine的起点Y</div><div class="line">    CGFloat lineAscent;//初始化上下边距的变量</div><div class="line">    CGFloat lineDescent;</div><div class="line">    NSArray * runs = (__bridge NSArray *)CTLineGetGlyphRuns(line);//获取所有CTRun</div><div class="line">    CTRunRef runCurrent;</div><div class="line">    for (int k = 0; k &lt; runs.count; k ++) &#123;//获取当前点击的CTRun</div><div class="line">        CTRunRef run = (__bridge CTRunRef)runs[k];</div><div class="line">        CFRange range = CTRunGetStringRange(run);</div><div class="line">        NSRange rangeOC = NSMakeRange(range.location, range.length);</div><div class="line">        if ([self isIndex:index inRange:rangeOC]) &#123;</div><div class="line">            runCurrent = run;</div><div class="line">            break;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    CTRunGetTypographicBounds(runCurrent, CFRangeMake(0, 0), &amp;lineAscent, &amp;lineDescent, NULL);//计算当前点击的CTRun高度</div><div class="line">    offsetY -= lineDescent;</div><div class="line">    CGFloat height = lineAscent + lineDescent;</div><div class="line">    return CGRectMake(offsetX, offsetY, offsexX2 - offsetX, height);//返回一个字符的Frame</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>根据注释就能很轻易的看懂这段代码，不过可能有几个方法不熟悉，我来介绍下。</p>
+<ul>
+<li>CTLineGetOffsetForStringIndex(,,)</li>
+</ul>
+<p>获取一行文字中，<code>指定charIndex字符相对x原点的偏移量</code>，返回值与第三个参数同为一个值。<code>如果charIndex超出一行的字符长度则反回最大长度结束位置的偏移量</code>，如一行文字共有17个字符，哪么返回的是第18个字符的起始偏移，即第17个偏移+第17个字符占有的宽度=第18个起始位置的偏移。因此想求一行字符所占的像素长度时，就可以使用此函数，将charIndex设置为大于字符长度即可。</p>
+<p>因为求得的坐标是相对于CTLine原点的偏移量，因此我们要加上CTLine原点的x坐标<code>获得该点的绝对坐标</code>。</p>
+<ul>
+<li><p>CTLineGetGlyphRuns()昨天有介绍过，拿到CTLine中的所有CTRun。</p>
+</li>
+<li><p>CTRunGetStringRange()获得CTRun在富文本中的范围</p>
+</li>
+<li>CTRunGetTypographicBounds(,,,,)获得对应CTRun的尺寸信息</li>
+</ul>
+<h4 id="判断点击的文字"><a href="#判断点击的文字" class="headerlink" title="判断点击的文字"></a>判断点击的文字</h4><p>中间用了第六个工具方法</p>
+<p>-(BOOL)isIndex:(NSInteger)index inRange:(NSRange)range</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">///范围检测</div><div class="line">/*</div><div class="line"> 范围内返回yes，否则返回no</div><div class="line"> */</div><div class="line">-(BOOL)isIndex:(NSInteger)index inRange:(NSRange)range</div><div class="line">&#123;</div><div class="line">    if ((index &lt;= range.location + range.length - 1) &amp;&amp; (index &gt;= range.location)) &#123;</div><div class="line">        return YES;</div><div class="line">    &#125;</div><div class="line">    return NO;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这个代码很简单我就不多说了。</p>
+<p>通过以上方法，你就拿到了<code>每一个字符的frame</code>了。</p>
+<p>可以返回至上一层了=。=喘了一口气。。。</p>
+<p>接受到字符的frame，还是<code>判断点击位置是否在frame中</code>，如果在，则响应点击事件并结束方法。如果没有不在任何一个字符的frame内，则说明没有点击到文字，执行相应的点击事件。</p>
+<p>大工告成，到了这里，CoreText做图文混排的点击事件也算是完成了。</p>
+<p>最后放一张效果图吧。<br><img src="http://upload-images.jianshu.io/upload_images/1835430-6557831b9e067768.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="大萌神镇楼"></p>
+<hr>
+<p>呐，了却一桩心事。。。</p>
+<p>你要是喜欢呢，麻烦你动一动你可爱的小手点击一下喜欢或者关注，毕竟老司机这么爱慕虚荣的人，而且老司机会经常更新的。</p>
+<p>哦，这段代码是我自己的解决方案，所以要转载的同学，一定要注明出处哦，这次是一定哦。貌似你不注明我也拦不住你。。。啧啧啧。。。<br><a href="http://www.jianshu.com/p/51c47329203e" target="_blank" rel="external">http://www.jianshu.com/p/51c47329203e</a></p>
+<p>参考资料：</p>
+<p>无</p>
+<p>2016年05月16日23点52分</p>
+<p>老司机Wicky</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>各位土豪大佬觉得好的话可以随意打赏下~</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="http://or3w6eypz.bkt.clouddn.com/blogTheme/NexT/png/wxPay.jpeg" alt="CodeWicky WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="http://or3w6eypz.bkt.clouddn.com/blogTheme/NexT/png/aliPay.jpeg" alt="CodeWicky Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/CoreText/" rel="tag"># CoreText</a>
+          
+            <a href="/tags/图文混排/" rel="tag"># 图文混排</a>
+          
+            <a href="/tags/点击事件/" rel="tag"># 点击事件</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/05/15/CoreText实现图文混排/" rel="next" title="CoreText实现图文混排">
+                <i class="fa fa-chevron-left"></i> CoreText实现图文混排
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/06/04/TableView优化之高度缓存/" rel="prev" title="TableView优化之高度缓存">
+                TableView优化之高度缓存 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="SOHUCS"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="CodeWicky" />
+          <p class="site-author-name" itemprop="name">CodeWicky</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">18</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">26</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/CodeWicky" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.jianshu.com/u/a56ec10f6603" target="_blank" title="简书">
+                  
+                    <i class="fa fa-fw fa-user-circle"></i>
+                  
+                  简书
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="mailto:codewicky@163.com" target="_blank" title="E-Mail">
+                  
+                    <i class="fa fa-fw fa-envelope"></i>
+                  
+                  E-Mail
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#全部代码"><span class="nav-number">1.</span> <span class="nav-text">全部代码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分段解析"><span class="nav-number">2.</span> <span class="nav-text">分段解析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#touchesBegan"><span class="nav-number">2.1.</span> <span class="nav-text">-touchesBegan</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#获取点击坐标"><span class="nav-number">2.2.</span> <span class="nav-text">获取点击坐标</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#坐标转换"><span class="nav-number">2.3.</span> <span class="nav-text">坐标转换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#点击图片判断"><span class="nav-number">2.4.</span> <span class="nav-text">点击图片判断</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#点击文字判断"><span class="nav-number">2.5.</span> <span class="nav-text">点击文字判断</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#获取CTLine"><span class="nav-number">2.5.1.</span> <span class="nav-text">获取CTLine</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#获取CTLine所表示范围"><span class="nav-number">2.5.2.</span> <span class="nav-text">获取CTLine所表示范围</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#获取CTRun"><span class="nav-number">2.5.3.</span> <span class="nav-text">获取CTRun</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#计算CTRun的frame"><span class="nav-number">2.5.4.</span> <span class="nav-text">计算CTRun的frame</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#判断点击的文字"><span class="nav-number">2.5.5.</span> <span class="nav-text">判断点击的文字</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CodeWicky</span>
+</div>
+
+
+<div class="theme-info">
+<p>Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a></p>
+</div>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+  
+  <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+  
+    <script type="text/javascript">
+    (function(){
+      var appid = 'cyt3f8T5R';
+      var conf = '5034be04c3b67fdcb8fbc7661b2c48bd';
+      var width = window.innerWidth || document.documentElement.clientWidth;
+      if (width < 960) {
+      window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){
+        window.changyan.api.config({appid:appid,conf:conf})});
+      }
+    })();
+    </script>
+    <script type="text/javascript" src="https://assets.changyan.sohu.com/upload/plugins/plugins.count.js"></script>
+  
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("1IlPuOHFMSDCU3gbiqhOUE7m-gzGzoHsz", "11zBsvOWeJCGzXNguE7305pF");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
